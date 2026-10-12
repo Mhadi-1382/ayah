@@ -14,7 +14,7 @@ Ayah is essentially a web application. The primary reason for developing it usin
 <br />
 The application's back-end framework is built using Python and Django, which help enhance the security of both the server and the application itself.*
 
-[Download App](https://github.com/Mhadi-1382/ayah/blob/main/app/Ayah_1.3.1.apk)
+[Download App](https://github.com/Mhadi-1382/ayah/releases/tag/v1.3.1)
 
 <br />
 
