@@ -1,0 +1,117 @@
+{% extends 'includes/_base.html' %}
+
+{% load static %}
+
+{% block title %}ادعیه و زیارات - آیه{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+    <style>
+        .switch-dark-light-mode .section-content div div.justify-between {
+            transition: var(--trs-2s);
+            background: var(--color-dark-third) !important;
+        }
+        .switch-dark-light-mode .section-content div div.justify-between h4 span {
+            transition: var(--trs-2s);
+            color: var(--color-dark-text-first) !important;
+        }
+        .switch-dark-light-mode .section-content div div.justify-between .bg-green-50 {
+            transition: var(--trs-2s);
+            background: var(--color-dark-second) !important;
+        }
+    </style>
+
+    <!-- Navbar -->
+    {% include 'includes/_navbar.html' %}
+
+    <!-- Modals -->
+    {% include 'includes/_modals.html' %}
+
+    <!-- Section: Main -->
+    <section class="section-main flex gap-8 max-2md:my-[1.3rem] transition-all">
+        <!-- Sidebar -->
+        {% include 'includes/_sidebar.html' %}
+
+        <!-- Section: Content -->
+        <section class="section-content max-2md:w-[96%] max-2md:mx-auto mb-4 2md:w-[calc(100%-230px)] transition-all">
+            <!-- Tab: Doa & ZiyartMasumin -->
+            <div class="tab" style="width: 300px;">
+                <li class="tab-active" id="tabItemDoa" onclick="tabSignInUpFirstFunc('tabItemDoa', 'tabItemZiyartMasumin', 'tabContentDoa', 'tabContentZiyartMasumin');">ادعیه</li>
+                <li class="" id="tabItemZiyartMasumin" onclick="tabSignInUpSecondFunc('tabItemDoa', 'tabItemZiyartMasumin', 'tabContentDoa', 'tabContentZiyartMasumin');">زیارات</li>
+            </div>
+
+            <div class="transition-all" id="tabContentDoa">
+                <div class="flex flex-col gap-2">
+                    {% if doa %}
+                        {% for d in doa %}
+                            {% if d.doa_category == 'Doa' %}
+                                <div class="flex items-center justify-between gap-2 bg-white py-4 px-5 rounded-full w-[100%]">
+                                    <a href="/doa/{{ d.id }}/" class="w-[100%] flex items-center justify-between gap-2">
+                                        <div class="flex items-center gap-4">
+                                            <h4 class="flex flex-col">
+                                                <span class="text-[17px] text-gray-700 font-[500]">{{ d.doa_name }}</span>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <span class="cursor-pointer" onclick="dataShareFunc('مشاهده {{ d.doa_name }} در آیه', '', '{{ d.id }}');" title="اشتراک گذاری">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            {% else %}
+                                
+                            {% endif %}
+                        {% endfor %}
+                        <div class="flex items-center justify-between gap-2 bg-white py-4 px-5 rounded-full w-[100%]">
+                            <a href="/doa/daily-prayers-ramadan/" class="w-[100%] flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-4">
+                                    <h4 class="flex flex-col">
+                                        <span class="text-[17px] text-gray-700 font-[500]">دعاهای روزانه ماه مبارک رمضان</span>
+                                    </h4>
+                                </div>
+                            </a>
+                            <span class="cursor-pointer" onclick="dataShareFunc('مشاهده دعاهای روزانه ماه مبارک رمضان در آیه', '', 'doa/daily-prayers-ramadan/');" title="اشتراک گذاری">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                </svg>
+                            </span>
+                        </div>
+                    {% else %}
+                        <p class="text-sm text-gray-400 font-[500]">موردی یافت نشد.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="hidden transition-all" id="tabContentZiyartMasumin">
+                <div class="flex flex-col gap-2">
+                    {% if doa %}
+                        {% for d in doa %}
+                            {% if d.doa_category == 'Ziyart' %}
+                                <div class="flex items-center justify-between gap-2 bg-white py-4 px-5 rounded-full w-[100%]">
+                                    <a href="/doa/{{ d.id }}/" class="w-[100%] flex items-center justify-between gap-2">
+                                        <div class="flex items-center gap-4">
+                                            <h4 class="flex flex-col">
+                                                <span class="text-[17px] text-gray-700 font-[500]">{{ d.doa_name }}</span>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <span class="cursor-pointer" onclick="dataShareFunc('مشاهده {{ d.doa_name }} در آیه', '', '{{ d.id }}');" title="اشتراک گذاری">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            {% else %}
+                                
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-sm text-gray-400 font-[500]">موردی یافت نشد.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </section>
+
+{% endblock %}

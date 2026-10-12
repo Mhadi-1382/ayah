@@ -1,0 +1,799 @@
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+@font-face {
+    font-family: 'Estedad';
+    src: url(../fonts/fa/Estedad.ttf);
+}
+@font-face {
+    font-family: 'Pinar';
+    src: url(../fonts/fa/Pinar-VF.ttf);
+}
+@font-face {
+    font-family: 'Modam';
+    src: url(../fonts/fa/Modam-Regular.ttf);
+}
+@font-face {
+    font-family: 'IRANSans';
+    src: url(../fonts/fa/IRANSansWeb.ttf);
+}
+
+@font-face {
+    font-family: 'Vazeh';
+    src: url(../fonts/ar/vazeh.woff2);
+}
+@font-face {
+    font-family: 'Nabi';
+    src: url(../fonts/ar/Nabi.ttf);
+}
+@font-face {
+    font-family: 'UthmanicHafs';
+    src: url(../fonts/ar/UthmanicHafs1_Ver09.ttf);
+}
+@font-face {
+    font-family: 'Gramophone';
+    src: url(../fonts/ar/GramophoneFaNum-Clean.ttf);
+}
+@font-face {
+    font-family: 'Indopak';
+    src: url(../fonts/ar/IndoPak.ttf);
+}
+@font-face {
+    font-family: 'Neirizi';
+    src: url(../fonts/ar/Neirizi.ttf);
+}
+@font-face {
+    font-family: 'Noorehira';
+    src: url(../fonts/ar/Noorehira.ttf);
+}
+
+.font-Estedad {font-family: 'Estedad' !important;}
+.font-Vazeh {font-family: 'Vazeh' !important;}
+.font-Nabi {font-family: 'Nabi' !important;}
+.font-UthmanicHafs {font-family: 'UthmanicHafs' !important;}
+.font-Gramophone {font-family: 'Gramophone' !important;}
+.font-Indopak {font-family: 'Indopak' !important;}
+.font-Neirizi {font-family: 'Neirizi' !important;}
+.font-Noorehira {font-family: 'Noorehira' !important;}
+
+li {list-style: none;}
+svg {color: #505050;}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px var(--color-input-1) inset !important;
+    -webkit-text-fill-color: #000 !important;
+}
+audio {width: 100%;}
+
+:root {
+    --f-family: 'Estedad', Verdana, Geneva, Tahoma, sans-serif;
+    --f-size-16: 1rem;
+    --f-size-20: 1.25rem;
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-main-1: #04202b;
+    --color-main-2: #FFECDC;
+    --color-btn-1: rgb(59, 130, 246);
+    --color-btn-2: rgb(37, 99, 235);
+    --color-input-1: rgb(249, 250, 251);
+    --color-dark-first: rgb(15, 15, 15);
+    --color-dark-second: rgb(37, 36, 42);
+    --color-dark-third: rgb(44, 43, 49);
+    --color-dark-text-first: rgb(194, 194, 194);
+    --color-dark-text-red: rgb(255, 91, 91);
+    --border-radius-10: 10px;
+    --border-radius-16: 1rem;
+    --border-radius-20: 20px;
+    --border-radius-26: 26px;
+    --border-radius-30: 30px;
+    --border-radius-36: 36px;
+    --border-radius-full: 9999px;
+    --trs-1s: all 0.1s ease-in;
+    --trs-2s: all 0.2s ease-in;
+}
+
+body {
+    background: linear-gradient(rgba(246, 246, 246, 0.63), rgba(246, 246, 246, 0.664)), url(../images/elements/bg-pattern.png) repeat;
+    background-attachment: fixed;
+    font-family: var(--f-family);
+    font-size: 14px !important;
+    line-height: 1.5;
+    color: var(--color-main-1);
+    height: 100vh;
+    width: 100%;
+}
+
+/* ===== Main ===== */
+main {height: fit-content;}
+
+/* ===== Splash Screen ===== */
+.splash-container-toggle {display: none !important;}
+.splash-container {
+    background: linear-gradient(rgba(246, 246, 246, 0.63), rgba(246, 246, 246, 0.664)), url(../images/elements/bg-pattern.png) repeat;
+    background-attachment: fixed;
+    background-color: var(--color-white);
+    position: fixed;
+    z-index: 1000;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.splash-container img {
+    animation: a-fade-in 0.5s ease;
+}
+.splash-container p {
+    animation: a-slide-bottom-to-top 0.3s ease-in-out;
+}
+
+/* ===== Navbar & Sidebar ===== */
+nav {
+    background-color: var(--color-white);
+    position: sticky;
+    z-index: 500;
+    width: 100%;
+    top: 0;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+nav ul {
+    gap: 1.5rem;
+    display: flex;
+    list-style: none;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.navbar-overlay-toggle {display: flex !important;}
+nav .navbar-overlay {
+    animation: a-fade-in 0.2s ease-in;
+    background-color: rgba(0, 0, 0, 0.60);
+    transition: all 0.2s ease-in;
+    position: fixed;
+    display: none;
+    z-index: 600;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    inset: 0;
+}
+nav .navbar-overlay i {
+    position: fixed;
+    z-index: 650;
+    height: 100%;
+    width: 100%;
+    inset: 0;
+}
+nav .navbar-overlay ul {
+    animation: a-slide-right-to-left 0.2s ease-in-out;
+    background-color: var(--color-white);
+    position: fixed;
+    z-index: 700;
+    height: 100%;
+    width: 300px;
+}
+.navbar-header,
+.navbar-body {
+    width: 100%;
+}
+.navbar-header {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.navbar-header-with-bg {
+    background: linear-gradient(rgba(255, 255, 255, 0.800), rgb(255, 255, 255)), url(../images/elements/avatar-pattern.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.navbar-body a li {
+    gap: 1rem;
+    display: flex;
+    padding: 0.7rem;
+    align-items: center;
+    border-radius: var(--border-radius-16);
+}
+.navbar-body a li:hover {
+    background-color: rgb(250, 250, 250);
+}
+aside.sidebar {
+    background-color: rgba(255, 255, 255, 0.60);
+    margin-bottom: 1rem;
+    height: fit-content;
+    width: 230px;
+}
+.sidebar-items-toggle {display: none !important;}
+.sidebar-items-show {display: block;}
+.sidebar-toggle {height: fit-content !important; width: auto !important; padding: 6px;}
+.sidebar-toggle button {margin: 0;}
+
+/* ===== Cards ===== */
+.card {width: 100%;}
+
+.card-panel svg {visibility: hidden;}
+.card-panel:hover svg {animation: a-fade-in 0.2s ease-in; visibility: visible;}
+
+/* ===== Modals ===== */
+.modal-full-screen-toggle {min-width: 45% !important;}
+.modal-full-screen-mobile-toggle {height: 100% !important; transition: var(--trs-2s);}
+.modal-full-screen-mobile-size-toggle {width: 160px !important; height: 160px !important; transition: var(--trs-2s);}
+.modal-full-screen-mobile-hide {display: none !important;}
+.modal-full-screen-mobile-show {display: flex !important;}
+.modal-toggle {display: flex !important;}
+.modal-overlay {
+    animation: a-fade-in 0.2s ease-in;
+    background-color: rgba(0, 0, 0, 0.60);
+    transition: all 0.2s ease-in;
+    position: fixed;
+    display: none;
+    margin: auto;
+    z-index: 900;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay i {
+    position: fixed;
+    z-index: 950;
+    height: 100%;
+    width: 100%;
+    inset: 0;
+}
+.modal-overlay .modal::-webkit-scrollbar {display: none;}
+.modal-overlay .modal {
+    animation: a-slide-bottom-to-top 0.2s ease-in-out;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-26);
+    height: fit-content;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    max-height: 90%;
+    z-index: 1000;
+    width: 400px;
+}
+.modal-overlay .modal .modal-line {
+    background-color: #eee;
+    border-radius: var(--border-radius-full);
+    height: 4px;
+    width: 30px;
+    z-index: 10;
+    top: 0;
+    margin: auto;
+    display: flex;
+    cursor: pointer;
+    position: sticky;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay .modal .modal-header {
+    gap: 1rem;
+    display: flex;
+    margin-top: 10px;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-direction: column;
+    justify-content: center;
+}
+.modal-overlay .modal#modalSignInUp {
+    background: linear-gradient(rgba(255, 255, 255, 0.600), rgb(255, 255, 255)), url(../images/elements/bg-pattern.png);
+    background-color: var(--color-white);
+}
+#modalOverlayProfile .modal {
+    background: linear-gradient(rgba(255, 255, 255, 0.600), rgb(255, 255, 255)), url(../images/elements/bg-pattern.png);
+    background-color: var(--color-white);
+}
+.modal-overlay#modalOverlayProfile .modal-body li.signout-btn-profile:active {
+    transition: var(--trs-2s);
+    background: rgba(255, 0, 0, 0.020) !important;
+}
+/* Zekar Counter */
+.zekar-counter-container::-webkit-scrollbar {display: none;}
+.zekar-counter-container {
+    width: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+}
+.zekar-counter-container .card-zekar-counter::before {
+    background: url(../images/elements/top-border.svg) no-repeat;
+    animation: a-slide-right-to-left 0.4s;
+    height: 50px;
+    width: 200px;
+    content: '';
+}
+.zekar-counter-container .card-zekar-counter::after {
+    background: url(../images/elements/top-border.svg) no-repeat;
+    animation: a-slide-right-to-left 0.4s;
+    rotate: 180deg;
+    height: 50px;
+    width: 200px;
+    content: '';
+}
+
+/* ===== Tab ===== */
+.tab {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-input-1);
+    border-radius: var(--border-radius-full);
+    margin-bottom: 1.2rem;
+    padding: 0.5rem;
+    gap: 1rem;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.tab li {
+    transition: var(--trs-1s);
+    color: #707070;
+    padding: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+}
+.tab-active {
+    background-color: var(--color-input-1);
+    transition: var(--trs-1s);
+    border-radius: var(--border-radius-full);
+    font-weight: 500;
+    color: var(--color-black);
+}
+.tab-hide {display: none !important;}
+.tab-show {display: block !important;}
+
+/* ===== Details ===== */
+details {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-direction: column;
+}
+details summary {
+    background-color: var(--color-input-1);
+    border-radius: var(--border-radius-16);
+    padding: 0.8rem 1rem;
+    list-style: none;
+    cursor: pointer;
+    gap: 1rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+details summary h4 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+details summary > span {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+}
+details div {
+    margin-top: 0.5rem;
+    padding: 0 1rem;
+}
+
+/* ===== Alert ===== */
+.alert-container-hide_ {display: none !important;}
+.alert-container-hide__ {display: none !important;}
+.alert-container-hide___ {display: none !important;}
+.alert-container {
+    transition: var(--trs-2s);
+    width: fit-content;
+    position: fixed;
+    padding: 16px;
+    bottom: 10px;
+    gap: 0.6rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.alert {
+    animation: a-slide-bottom-to-top 0.3s ease-in-out;
+    transition: var(--trs-2s);
+    width: 350px;
+    z-index: 100;
+}
+.alert.alert-success, .alert.alert-error, .alert.alert-warning {backdrop-filter: blur(5px);}
+.alert.alert-success {background-color: rgba(235, 251, 237, 0.920);}
+.alert.alert-success svg {color: rgb(111, 202, 140) !important;}
+.alert.alert-error {background-color: rgba(251, 238, 238, 0.920);}
+.alert.alert-error svg {color: rgb(206, 112, 140) !important;}
+.alert.alert-warning {background-color: rgba(251, 243, 235, 0.920)}
+.alert.alert-warning svg {color: rgb(202, 160, 140) !important;}
+
+/* ===== Forms, Inputs, Buttons ===== */
+form {
+    width: 100%;
+}
+form input,
+form textarea,
+form select,
+select {
+    font-family: var(--f-family);
+    border-radius: var(--border-radius-16);
+    padding: 0.75rem 1rem;
+    outline: none;
+    border: none;
+    width: 100%;
+}
+form input:not(input[type='submit']),
+form textarea,
+form select,
+select {
+    background-color: var(--color-input-1);
+    margin-bottom: 8px;
+    width: 100%;
+}
+form textarea {resize: vertical;}
+form input[type='submit'],
+button[type='submit'] {
+    background-color: var(--color-btn-1);
+    cursor: pointer;
+    color: var(--color-white);
+}
+form input[type='submit']:active,
+button[type='submit']:active {
+    transition: var(--trs-1s);
+    background-color: var(--color-btn-2);
+}
+form input[type='submit']:disabled {
+    transition: var(--trs-1s);
+    cursor: not-allowed;
+    background-color: rgb(118, 171, 255);
+}
+form input[type='file'] {cursor: pointer;}
+form input[type='file']::-webkit-file-upload-button {
+    border-radius: var(--border-radius-full);
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+form label {
+    margin-bottom: 6px;
+    display: flex;
+    color: #707070;
+}
+form input[type='search']::-webkit-search-cancel-button {display: none !important; list-style: none;}
+
+
+/* =========================
+ #PAGE: Surah Details
+============================ */
+.surah-details {
+    color: #444444;
+}
+.surah-details .surah-details-box {
+    background: linear-gradient(rgba(231, 241, 251, 0.6), rgba(202, 228, 255, 0.650)), url(../images/elements/background-namaz.png) repeat;
+    background-position: center;
+    background-size: cover;
+    margin-right: auto;
+    margin-left: auto;
+    height: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.surah-details .surah-details-info {
+    background: linear-gradient(rgba(202, 228, 255, 0.700), rgba(202, 228, 255, 0.700)), url(../images/elements/background-namaz.png) repeat;
+    background-position: center;
+    backdrop-filter: blur(4px);
+    background-size: cover;
+    position: sticky;
+    z-index: 100;
+    gap: 1rem;
+    top: 68px;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.surah-details .surah-details-text-quran {
+    font-family: 'Vazeh';
+    text-align: justify;
+    font-size: var(--f-size-20);
+    line-height: 2.2;
+    font-weight: 500;
+}
+.surah-details .surah-details-text-translate,
+.surah-details .surah-details-text-tafsir {
+    font-size: var(--f-size-16);
+    text-align: justify;
+    line-height: 2.2;
+}
+.surah-details .surah-details-audio-quran {
+    position: sticky;
+    bottom: 15px;
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.surah-details .surah-details-audio-quran h4 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+}
+.surah-details .surah-details-audio-quran audio::-webkit-media-controls-enclosure {
+    background-color: transparent;
+}
+
+
+/* ===== Switch Dark & Light Mode ===== */
+.switch-dark-light-mode svg {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+}
+.switch-dark-light-mode hr {
+    transition: var(--trs-2s);
+    border-color: var(--color-dark-second) !important;
+}
+.switch-dark-light-mode input:-webkit-autofill,
+.switch-dark-light-mode input:-webkit-autofill:hover,
+.switch-dark-light-mode input:-webkit-autofill:focus,
+.switch-dark-light-mode input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px var(--color-dark-third) inset !important;
+    -webkit-text-fill-color: var(--color-dark-text-first) !important;
+}
+
+.switch-dark-light-mode,
+.switch-dark-light-mode .splash-container {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+    background: var(--color-dark-first) !important;
+}
+
+.light-mode-logo {display: none;}
+.dark-mode-logo {display: flex;}
+.switch-dark-light-mode nav {
+    transition: var(--trs-2s);
+    background-color: var(--color-dark-second) !important;
+}
+.switch-dark-light-mode aside.sidebar,
+.switch-dark-light-mode nav .navbar-overlay ul {
+    transition: var(--trs-2s);
+    background: var(--color-dark-second) !important;
+}
+.switch-dark-light-mode .navbar-body a li:hover {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+
+.switch-dark-light-mode .card-accessories .card p {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+}
+.switch-dark-light-mode .card-accessories .card > div,
+.switch-dark-light-mode .card-panel {
+    transition: var(--trs-2s);
+    background: var(--color-dark-second) !important;
+}
+
+.switch-dark-light-mode .card-zekar-ruz-va-hadis {
+    transition: var(--trs-2s);
+    background: linear-gradient(45deg, var(--color-dark-third), rgba(52, 52, 54, 0.7)) !important;
+}
+.switch-dark-light-mode .card-zekar-ruz-va-hadis div h2,
+.switch-dark-light-mode .card-zekar-ruz-va-hadis div p,
+.switch-dark-light-mode .card-zekar-ruz-va-hadis div span {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+}
+.switch-dark-light-mode .card-zekar-ruz-va-hadis div a:hover,
+.switch-dark-light-mode .card-zekar-ruz-va-hadis div a:active {
+    transition: var(--trs-2s);
+    background: var(--color-dark-second) !important;
+}
+.switch-dark-light-mode .card-zekar-ruz-va-hadis div h3 svg {
+    transition: var(--trs-2s);
+    background: var(--color-dark-first) !important;
+}
+
+.switch-dark-light-mode .modal-overlay .modal {
+    transition: var(--trs-2s);
+    background: var(--color-dark-second) !important;
+}
+.switch-dark-light-mode .modal-overlay .modal .modal-line {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayProfile .modal-header svg {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayProfile .modal-body li:active {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay .modal .zekar-counter-container * {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayZekarCounter button span {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlaySearch * {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlaySearch .switch-dark-mode {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlaySearch div li {
+    transition: var(--trs-2s);
+    background: var(--color-dark-second) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayAboutUs h3 span:nth-child(2) {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayBookmarksPersonalNote #tabContentBookmarks a > div {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayBookmarksPersonalNote #tabContentBookmarks form button svg,
+.switch-dark-light-mode .modal-overlay#modalOverlayBookmarksPersonalNote #tabContentPersonalNote form button svg {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-red) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayBookmarksPersonalNote #tabContentPersonalNote .notes-dark-mode {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .modal-overlay#modalOverlayContactUs .modal-body div li {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+
+.switch-dark-light-mode .tab {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+    border-color: var(--color-dark-second) !important;
+}
+.switch-dark-light-mode .tab * {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+}
+.switch-dark-light-mode .tab-active {
+    transition: var(--trs-2s);
+    background: var(--color-dark-second) !important;
+}
+
+.switch-dark-light-mode details summary {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+
+.switch-dark-light-mode .alert.alert-success {
+    transition: var(--trs-2s);
+    background: linear-gradient(45deg, rgb(37, 36, 42), rgba(0, 128, 0, 0.068)) !important;
+}
+.switch-dark-light-mode .alert.alert-error {
+    transition: var(--trs-2s);
+    background: linear-gradient(45deg, rgb(37, 36, 42), rgba(128, 0, 0, 0.068)) !important;
+}
+.switch-dark-light-mode .alert.alert-warning {
+    transition: var(--trs-2s);
+    background: linear-gradient(45deg, rgb(37, 36, 42), rgba(128, 83, 0, 0.068)) !important;
+}
+
+.switch-dark-light-mode form input:not(input[type='submit']),
+.switch-dark-light-mode form textarea,
+.switch-dark-light-mode form select,
+.switch-dark-light-mode select {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode form input[type='file']::-webkit-file-upload-button {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+    background: var(--color-dark-second) !important;
+}
+
+.switch-dark-light-mode .surah-details {
+    transition: var(--trs-2s);
+    color: var(--color-dark-text-first) !important;
+}
+.switch-dark-light-mode .surah-details .surah-details-box,
+.switch-dark-light-mode .surah-details .surah-details-info {
+    transition: var(--trs-2s);
+    background: linear-gradient(180deg, var(--color-dark-third), rgba(35, 37, 49, 0.548)) !important;
+}
+.switch-dark-light-mode .surah-details .surah-details-audio-quran {
+    transition: var(--trs-2s);
+    background: var(--color-dark-third) !important;
+}
+.switch-dark-light-mode .surah-details .surah-details-audio-quran audio {color-scheme: dark;}
+.switch-dark-light-mode .surah-details .surah-details-audio-quran #surahDetailsAudioQuranSVG:hover {
+    transition: var(--trs-2s);
+    background: var(--color-dark-second) !important;
+}
+
+
+/* ===== Animations ===== */
+@keyframes a-slide-right-to-left {
+    0% {
+        transform: translate3d(100%, 0, 0);
+    }
+}
+@keyframes a-slide-left-to-right {
+    0% {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+@keyframes a-slide-bottom-to-top {
+    0% {
+        transform: translate3d(0, 100%, 0);
+    }
+}
+@keyframes a-slide-top-to-bottom {
+    0% {
+        transform: translate3d(0, -100%, 0);
+    }
+}
+@keyframes a-fade-in {
+    0% {
+        transition: all 0.2s ease-in;
+        opacity: 0;
+    }
+}
+
+.a-slide-right-to-left {animation: a-slide-right-to-left 0.3s ease-in-out;}
+.a-a-slide-top-to-bottom {animation: a-slide-top-to-bottom 0.3s ease-in-out;}
+
+/* ===== Media Query ===== */
+@media (min-width: 868px) {
+    .navbar-overlay {display: none !important;}
+    
+    .sidebar-width-full {width: 100% !important;}
+
+    .surah-details .surah-details-info {top: 93px;}
+}
+@media (max-width: 867px) {
+    ::-webkit-scrollbar {display: none;}
+
+    .modal-full-screen-mobile-toggle {min-height: 100% !important; transition: var(--trs-2s);}
+    .modal-overlay .modal {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    
+    .card-accessories {
+        display: grid;
+        transition: var(--trs-2s);
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr))
+    }
+    .card-accessories .card p {
+        transition: var(--trs-2s);
+        font-size: 13px;
+    }
+}

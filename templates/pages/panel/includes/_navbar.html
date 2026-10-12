@@ -1,0 +1,23 @@
+{% load static %}
+
+<nav class="p-4 2md:hidden transition-all" style="background-color: transparent;">
+    <div class="flex items-center justify-between gap-2 w-[100%]">
+        <div class="flex items-center gap-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" onclick="navbarOverlayFunc();" class="size-6 2md:hidden cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+            </svg>
+            <a href="/" class="mr-3">
+                <img src="{% static '/images/logo/svg/Ayah_Quran_App_Logotype_B.svg' %}" alt="Ayah Logo" class="size-10 drop-shadow-md transition-all" id="lightModeLogo" draggable="false">
+                <img src="{% static '/images/logo/svg/Ayah_Quran_App_Logotype_W.svg' %}" alt="Ayah Logo" class="hidden size-10 drop-shadow-md transition-all" id="darkModeLogo" draggable="false">
+            </a>
+        </div>
+    </div>
+
+    <div class="navbar-overlay 2md:hidden transition-all" id="navbarOverlay">
+        <i onclick="navbarOverlayFunc(0);"></i>
+        <ul class="p-6 overflow-hidden overflow-y-auto">
+            <!-- Sidebar Items -->
+            {% include './_navbar_sidebar_items.html' %}
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,256 @@
+{% load static %}
+
+<style>
+    select {list-style: none;}
+</style>
+
+<!-- Modal: Settings Content -->
+<div class="modal-overlay" id="modalOverlaySettingsContent">
+    <i onclick="modalFunc('modalOverlaySettingsContent');"></i>
+    <div class="modal p-4">
+        <div class="modal-line" onclick="modalFunc('modalOverlaySettingsContent');"></div>
+        <div class="modal-header">            
+            <h3 class="text-base font-[500]">تنظیمات</h3>
+        </div>
+        <div class="modal-body">
+            <div class="flex flex-col gap-2">
+                <div>
+                    <h4 class="font-[600] text-gray-500 mb-2">انتخاب قلم</h4>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">قلم عربی</p>
+                        <select id="fontFamilyAr" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="default" selected>پیش فرض (واضح)</option>
+                            <option value="nabi">نبی</option>
+                            <option value="uthmanicHafs">عثمان طه</option>
+                            <option value="gramophone">گرامافون</option>
+                            <option value="indopak">ایندوپاک</option>
+                            <option value="neirizi">نیریزی</option>
+                            <option value="noorehira">نورهیرا</option>
+                        </select>
+                    </div>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">قلم فارسی</p>
+                        <select id="fontFamilyFa" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="default" selected>پیش فرض (استعداد)</option>
+                            <option value="pinar">پینار</option>
+                            <option value="modam">مدام</option>
+                            <option value="iRANSans">ایران یکان</option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="my-3 border-blue-50" />
+                <div>
+                    <h4 class="font-[600] text-gray-500 mb-2">اندازه قلم</h4>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">قلم عربی</p>
+                        <select id="fontSizeAr" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="default" selected>پیش فرض (20px)</option>
+                            <option value="22">22px</option>
+                            <option value="25">25px</option>
+                            <option value="30">30px</option>
+                            <option value="35">35px</option>
+                        </select>
+                    </div>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">قلم فارسی</p>
+                        <select id="fontSizeFa" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="default" selected>پیش فرض (16px)</option>
+                            <option value="18">18px</option>
+                            <option value="20">20px</option>
+                            <option value="25">25px</option>
+                            <option value="30">30px</option>
+                            <option value="35">35px</option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="my-3 border-blue-50" />
+                <div>
+                    <h4 class="font-[600] text-gray-500 mb-2">فاصله بین خطوط</h4>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">فاصله بین خطوط عربی</p>
+                        <select id="lineHeightAr" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="default" selected>پیش فرض (2.2)</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">فاصله بین خطوط فارسی</p>
+                        <select id="lineHeightFa" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="default" selected>پیش فرض (2.2)</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="my-3 border-blue-50" />
+                <div>
+                    <h4 class="font-[600] text-gray-500 mb-2">صفحه نمایش</h4>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">روشن نگه داشتن صفحه در حین مطالعه قرآن</p>
+                        <select id="keepingPageOn" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="yes" selected>بله</option>
+                            <option value="no">خیر</option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="my-3 border-blue-50" />
+                <div>
+                    <h4 class="font-[600] text-gray-500 mb-2">حرکت خودکار</h4>
+                    <div class="px-2">
+                        <p class="font-[500] text-gray-400">سرعت حرکت</p>
+                        <select id="autoScrollSpeed" class="w-[100%] mt-2" style="padding: 0.5rem; list-style: none;">
+                            <option value="slow" selected>آهسته</option>
+                            <option value="normal">معمولی</option>
+                            <option value="fast">سریع</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const lineHeightAr = document.getElementById('lineHeightAr');
+    const lineHeightArApply = document.querySelector('.surah-details-text-quran');
+    lineHeightAr.onchange = () => {
+        if (lineHeightAr.value === 'default') {
+            fontFamilyArApply.style.lineHeight = '2.2';
+        } else if (lineHeightAr.value === '2.5') {
+            fontFamilyArApply.style.lineHeight = '2.5';
+        } else if (lineHeightAr.value === '3') {
+            fontFamilyArApply.style.lineHeight = '3';
+        }
+    }
+
+    const lineHeightFa = document.getElementById('lineHeightFa');
+    const lineHeightFaApply = document.querySelector('.surah-details-text-translate');
+    const lineHeightFaApplyTwo = document.querySelector('.surah-details-text-tafsir');
+    lineHeightFa.onchange = () => {
+        if (lineHeightFa.value === 'default') {
+            fontFamilyFaApply.style.lineHeight = '2.2';
+            lineHeightFaApplyTwo.style.lineHeight = '2.2';
+        } else if (lineHeightFa.value === '2.5') {
+            fontFamilyFaApply.style.lineHeight = '2.5';
+            lineHeightFaApplyTwo.style.lineHeight = '2.5';
+        } else if (lineHeightFa.value === '3') {
+            fontFamilyFaApply.style.lineHeight = '3';
+            lineHeightFaApplyTwo.style.lineHeight = '3';
+        }
+    }
+</script>
+<script>
+    const fontFamilyAr = document.getElementById('fontFamilyAr');
+    const fontFamilyArApply = document.querySelector('.surah-details-text-quran');
+    fontFamilyAr.onchange = () => {
+        if (fontFamilyAr.value === 'default') {
+            fontFamilyArApply.style.fontFamily = 'Vazeh';
+        } else if (fontFamilyAr.value === 'nabi') {
+            fontFamilyArApply.style.fontFamily = 'Nabi';
+        } else if (fontFamilyAr.value === 'uthmanicHafs') {
+            fontFamilyArApply.style.fontFamily = 'UthmanicHafs';
+        } else if (fontFamilyAr.value === 'gramophone') {
+            fontFamilyArApply.style.fontFamily = 'Gramophone';
+        } else if (fontFamilyAr.value === 'indopak') {
+            fontFamilyArApply.style.fontFamily = 'Indopak';
+        } else if (fontFamilyAr.value === 'neirizi') {
+            fontFamilyArApply.style.fontFamily = 'Neirizi';
+        } else if (fontFamilyAr.value === 'noorehira') {
+            fontFamilyArApply.style.fontFamily = 'Noorehira';
+        }
+    }
+
+    const fontFamilyFa = document.getElementById('fontFamilyFa');
+    const fontFamilyFaApply = document.querySelector('.surah-details-text-translate');
+    const fontFamilyFaApplyTwo = document.querySelector('.surah-details-text-tafsir');
+    fontFamilyFa.onchange = () => {
+        if (fontFamilyFa.value === 'default') {
+            fontFamilyFaApply.style.fontFamily = 'Estedad';
+            fontFamilyFaApplyTwo.style.fontFamily = 'Estedad';
+        } else if (fontFamilyFa.value === 'pinar') {
+            fontFamilyFaApply.style.fontFamily = 'Pinar';
+            fontFamilyFaApplyTwo.style.fontFamily = 'Pinar';
+        } else if (fontFamilyFa.value === 'modam') {
+            fontFamilyFaApply.style.fontFamily = 'Modam';
+            fontFamilyFaApplyTwo.style.fontFamily = 'Modam';
+        } else if (fontFamilyFa.value === 'iRANSans') {
+            fontFamilyFaApply.style.fontFamily = 'IRANSans';
+            fontFamilyFaApplyTwo.style.fontFamily = 'IRANSans';
+        }
+    }
+</script>
+<script>
+    const fontSizeAr = document.getElementById('fontSizeAr');
+    const fontSizeArApply = document.querySelector('.surah-details-text-quran');
+    fontSizeAr.onchange = () => {
+        if (fontSizeAr.value === 'default') {
+            fontSizeArApply.style.fontSize = '20px';
+        } else if (fontSizeAr.value === '22') {
+            fontSizeArApply.style.fontSize = '22px';
+        } else if (fontSizeAr.value === '25') {
+            fontSizeArApply.style.fontSize = '25px';
+        } else if (fontSizeAr.value === '30') {
+            fontSizeArApply.style.fontSize = '30px';
+        } else if (fontSizeAr.value === '35') {
+            fontSizeArApply.style.fontSize = '35px';
+        }
+    }
+
+    const fontSizeFa = document.getElementById('fontSizeFa');
+    const fontSizeFaApply = document.querySelector('.surah-details-text-translate');
+    const fontSizeFaApplyTwo = document.querySelector('.surah-details-text-tafsir');
+    fontSizeFa.onchange = () => {
+        if (fontSizeFa.value === 'default') {
+            fontSizeFaApply.style.fontSize = '16px';
+            fontSizeFaApplyTwo.style.fontSize = '16px';
+        } else if (fontSizeFa.value === '18') {
+            fontSizeFaApply.style.fontSize = '18px';
+            fontSizeFaApplyTwo.style.fontSize = '18px';
+        } else if (fontSizeFa.value === '20') {
+            fontSizeFaApply.style.fontSize = '20px';
+            fontSizeFaApplyTwo.style.fontSize = '20px';
+        } else if (fontSizeFa.value === '25') {
+            fontSizeFaApply.style.fontSize = '25px';
+            fontSizeFaApplyTwo.style.fontSize = '25px';
+        } else if (fontSizeFa.value === '30') {
+            fontSizeFaApply.style.fontSize = '30px';
+            fontSizeFaApplyTwo.style.fontSize = '30px';
+        } else if (fontSizeFa.value === '35') {
+            fontSizeFaApply.style.fontSize = '35px';
+            fontSizeFaApplyTwo.style.fontSize = '35px';
+        }
+    }
+</script>
+<script>
+    const keepingPageOn = document.getElementById('keepingPageOn');
+    let wakeLock = null;
+    
+    async function requestWakeLock() {
+        try {
+            wakeLock = await navigator.wakeLock.request('screen');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    function releaseWakeLock() {
+        if (wakeLock !== null) {
+            wakeLock.release();
+        }
+    }
+    
+
+    keepingPageOn.addEventListener('change', () => {
+        if (keepingPageOn.value === 'yes') {
+            requestWakeLock();
+        } else if (keepingPageOn.value === 'no') {
+            releaseWakeLock();
+        }
+    });
+    if (keepingPageOn.value === 'yes') {
+        requestWakeLock();
+    } else if (keepingPageOn.value === 'no') {
+        releaseWakeLock();
+    }
+</script>

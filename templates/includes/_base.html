@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa-IR" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <!-- Config Robots & ThemeColor & CSRF & Referrer -->
+        <meta name="robots" content="{% block robots %}{% endblock robots %}">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <meta name="referrer" content="no-referrer">
+
+        <!-- Meta Description & Keywords -->
+        <meta name="description" content="{% block des %}{% endblock des %}">
+        <meta name="keywords" content="{% block keywords %}{% endblock keywords %}">
+
+        <!-- Import CSS -->
+        <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+        <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+        <!-- Import Favicon & Manifest -->
+        <link rel="shortcut icon" href="{% static 'images/logo/png/Ayah_Quran_App_Logo_Type_ll.png' %}" type="image/x-icon">
+        <link rel="manifest" href="{% static 'manifest.json' %}">
+        <script src="https://js.pusher.com/beams/2.1.0/push-notifications-cdn.js"></script>
+
+        <!-- Title -->
+        <title>{% block title %}{% endblock title %}</title>
+
+        <!-- Script -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('{% static 'js/service-worker.js' %}')
+                .then(function(reg) {
+                    console.log('Service Worker registered!', reg);
+                })
+                .catch(function(error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+            }
+            
+            Notification.requestPermission();
+        </script>
+        <script>
+            const beamsClient = new PusherPushNotifications.Client({
+                instanceId: '2290f082-76c6-4712-bfca-bd71847cda6a',
+            });
+
+            beamsClient.start()
+            .then(() => beamsClient.addDeviceInterest('Ayah'))
+            .then(() => console.log('Successfully registered and subscribed!'))
+            .catch(console.error);
+        </script>
+    </head>
+    <body>
+
+        <!-- Alerts -->
+        {% include 'includes/_alerts.html' %}
+
+        <!-- Main -->
+        <main class="2md:w-[85%] lg:w-[75%] xl:w-[60%] m-auto transition-all">
+            {% block content %}{% endblock content %}
+        </main>
+
+
+        <!-- Import JS -->
+        <script src="{% static 'js/app.js' %}"></script>
+        
+    </body>
+</html>

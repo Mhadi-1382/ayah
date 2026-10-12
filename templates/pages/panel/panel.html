@@ -1,0 +1,170 @@
+{% extends 'includes/_base.html' %}
+
+{% load static %}
+
+{% block title %}پنل مدیریت - آیه{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+    <script>
+        if (localStorage.getItem('themeMode') === 'dark') {
+            document.body.classList.add('switch-dark-light-mode');
+            darkModeBtnId.classList.add('tab-active');
+            lightModeBtnId.classList.remove('tab-active');
+        } else {
+            document.body.classList.remove('switch-dark-light-mode');
+            lightModeBtnId.classList.add('tab-active');
+            darkModeBtnId.classList.remove('tab-active');
+        }
+    </script>
+
+    <style>
+        main {
+            all: unset !important;
+        }
+        
+        .section-content {
+            width: calc(100% - 120px);
+        }
+        
+        .switch-dark-light-mode nav {
+            background: transparent !important;
+        }
+
+        .cke_notifications_area, .cke_copyformatting_notification {display: none !important;}
+    </style>
+
+    <!-- Loader Screen -->
+    {% include 'pages/panel/includes/_loader.html' %}
+
+    <!-- Navbar -->
+    {% include 'pages/panel/includes/_navbar.html' %}
+    
+    <!-- Section: Main -->
+    <section class="section-main flex justify-between gap-2 transition-all">
+        <!-- Sidebar -->
+        {% include 'pages/panel/includes/_sidebar.html' %}
+
+        <!-- Section: Content -->
+        <section class="section-content max-2md:!w-[96%] m-auto 2md:w-[100%] my-6 transition-all">
+            <!-- Hint -->
+            <div class="mb-6 text-gray-500 text-sm flex max-sm:flex-col max-sm:items-start max-sm:gap-2 items-center gap-4 transition-all">
+                <p>مدیر گرامی، <br /> با کلیک برروری هر کدام از کارت ها میتوانید به ویژگی و دسترسی های هر بخش دسترسی داشته باشید. <br /> برای مطالعه بیشتر میتوانید به بخش <a href="javascript:modalFunc('modalOverlayAdminGuide');" class="font-[500] text-gray-700">راهنمای مدیر</a> مراجعه فرمایید.</p>
+            </div>
+
+            <h3 class="text-[18px] font-[600]">دسترسی سریع</h3>
+            
+            <h4 class="font-[500] text-gray-500" style="margin-top: 15px;">مدیریت محتوا</h4>
+            <div class="my-2 flex items-center flex-wrap gap-2">
+                <a href="javascript:modalFunc('modalOverlayContentsSurah');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/reading.svg' %}" alt="reading" class="size-8 drop-shadow-md" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">فهرست سوره ها</h3>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayDoa');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/sajadah.svg' %}" alt="sajadah" class="size-8 drop-shadow-md" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">ادعیه</h3>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayAhadis');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/al_quran.svg' %}" alt="al_quran" class="size-8 drop-shadow-md" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">احادیث</h3>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayZiyartMajazi');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/mushola.svg' %}" alt="mushola" class="size-8 drop-shadow-md" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">زیارت مجازی</h3>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayVasiatnamehShohada');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/ketupat.svg' %}" alt="ketupat" class="size-8 drop-shadow-md" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">وصیتنامه شهدا</h3>
+                    </div>
+                </a>
+            </div>
+
+            <h4 class="font-[500] text-gray-500" style="margin-top: 45px;">مدیریت پیشرفته</h4>
+            <div class="my-2 flex items-center flex-wrap gap-2">
+                <a href="javascript:modalFunc('modalOverlayDetailsInstallation');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/info_installation.svg' %}" alt="info_installation" class="size-6 drop-shadow-m" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">جزییات نصب</h3>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayManageUsers');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/manage_user.svg' %}" alt="manage_user" class="size-6 drop-shadow-m" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">مدیریت کاربران</h3>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayManageContactUs');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/question.svg' %}" alt="manage_user" class="size-6 drop-shadow-m" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">ارتباط با ما</h3>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlaySendNotify');" class="transition-all" style="width: 130px;">
+                    <div class="card-panel p-3 bg-white flex flex-col gap-2 rounded-3xl w-[100%] transition-all">
+                        <div class="flex items-center justify-between gap-2 transition-all">
+                            <img src="{% static 'images/icons/notify.svg' %}" alt="send_notify" class="size-6 drop-shadow-m" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-300 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-[500] text-gray-500">ارسال اعلان</h3>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </section>
+
+    <!-- Modals -->
+    {% include 'pages/panel/includes/_modals.html' %}
+
+{% endblock %}

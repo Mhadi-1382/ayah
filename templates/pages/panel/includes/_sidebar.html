@@ -1,0 +1,8 @@
+{% load static %}
+
+<aside class="flex flex-col items-center justify-between gap-2 py-6 sticky top-0 bottom-0 right-0 h-[100vh] w-[80px] max-2md:hidden transition-all">
+    <a href="/" class="max-2md:hidden"><img src="{% static '/images/logo/svg/Ayah_Quran_App_Logo_Type_ll.svg' %}" alt="Ayah Logo" class="size-12 drop-shadow-md transition-all" draggable="false"></a>
+    
+    <!-- Sidebar Items -->
+    {% include './_navbar_sidebar_items.html' %}
+</aside>

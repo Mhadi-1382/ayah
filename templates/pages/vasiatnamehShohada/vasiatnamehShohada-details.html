@@ -1,0 +1,106 @@
+{% extends 'includes/_base.html' %}
+
+{% load static %}
+
+{% block title %}وصیتنامه: {{ vasiatnamehShohada.vasiatnameh_shohada_name }} - آیه{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+    <style>
+        .section-content p {
+            text-align: justify;
+            line-height: 2.2;
+        }
+
+        .switch-dark-light-mode .section-content * {
+            transition: var(--trs-2s);
+            color: var(--color-dark-text-first) !important;
+        }
+    </style>
+
+    <!-- Navbar -->
+    {% include 'includes/_navbar.html' %}
+
+    <!-- Modals -->
+    {% include 'includes/_modals.html' %}
+
+    <!-- Section: Main -->
+    <section class="section-main flex gap-8 max-2md:my-[1.3rem] transition-all">
+        <!-- Sidebar -->
+        {% include 'includes/_sidebar.html' %}
+
+        <!-- Section: Content -->
+        <section class="section-content max-2md:w-[96%] max-2md:mx-auto mb-4 2md:w-[calc(100%-230px)] transition-all">
+            <div class="flex flex-col gap-6 transition-all">
+                <div class="flex items-center justify-between flex-wrap gap-6 mb-4">
+                    <h3 class="font-[600] text-gray-700 text-[18px] transition-all">وصیتنامه: <br /> {{ vasiatnamehShohada.vasiatnameh_shohada_name }}</h3>
+                    <div class="flex items-center gap-2">
+                        <span class="cursor-pointer flex w-[fit-content]" onclick="dataShareFunc('وصیتنامه {{ vasiatnamehShohada.vasiatnameh_shohada_name }} در آیه', '', '');" title="اشتراک گذاری">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-gray-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                            </svg>
+                        </span>
+                        {% if request.user.is_authenticated %}
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const bookmarkList_ = document.getElementById('bookmarkList');
+                                    const bookmarkAdd_ = document.getElementById('bookmarkAdd');
+    
+                                    const bookmarks_check_content = '{{ bookmarks_check_content }}';
+                                    const bookmarks_list = bookmarks_check_content.split(',');
+    
+                                    if (bookmarks_list.includes(document.location.href)) {
+                                        bookmarkList_.style.display = 'flex';
+                                    } else {
+                                        bookmarkAdd_.style.display = 'flex';
+                                    }
+                                });
+                            </script>
+                            
+                            <span class="cursor-pointer" style="display: none;" id="bookmarkList" onclick="modalFunc('modalOverlayBookmarksPersonalNote'), tabSignInUpFirstFunc('tabItemBookmarks', 'tabItemPersonalNote', 'tabContentBookmarks', 'tabContentPersonalNote');" title="حذف نشان گذاری">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5" />
+                                </svg>
+                            </span>
+                            
+                            <!-- Form: Bookmark: Add -->
+                            <form action="{% url 'bookmark_add' %}" method="post" style="all: unset; display: none;" class="" id="bookmarkAdd">
+                                {% csrf_token %}
+    
+                                <input type="hidden" id="bookmarkTitle" name="bookmarkTitle">
+                                <input type="hidden" id="bookmarkLink" name="bookmarkLink">
+                                <button style="cursor: pointer !important; all: unset; display: flex;" title="نشان گذاری">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                    </svg>
+                                </button>
+                            </form>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const bookmarkTitle_ = document.getElementById('bookmarkTitle').value = document.title;
+                                    const bookmarkLink_ = document.getElementById('bookmarkLink').value = document.location.href;
+                                });
+                            </script>
+                        {% else %}
+                            
+                        {% endif %}
+                    </div>
+                </div>
+
+                <img src="https://ayah.chbk.app/media/{{ vasiatnamehShohada.vasiatnameh_shohada_img }}" alt="{{ vasiatnamehShohada.vasiatnameh_shohada_name }}" class="w-[300px] max-sm:w-[100%] object-cover hover:saturate-150 rounded-3xl cursor-pointer transition-all" onclick="modalFunc('modalOverlayImageFullSize');" draggable="false">
+                <p>{{ vasiatnamehShohada.vasiatnameh_shohada_text | safe }}</p>
+            </div>
+        </section>
+    </section>
+
+    <!-- Image Full Size -->
+    <div class="modal-overlay" id="modalOverlayImageFullSize">
+        <i onclick="modalFunc('modalOverlayImageFullSize');"></i>
+
+        <div class="">
+            <img src="https://ayah.chbk.app/media/{{ vasiatnamehShohada.vasiatnameh_shohada_img }}" alt="{{ vasiatnamehShohada.vasiatnameh_shohada_name }}" class="w-[400px] h-[auto] rounded-3xl transition-all" draggable="false">
+        </div>
+    </div>
+
+{% endblock %}

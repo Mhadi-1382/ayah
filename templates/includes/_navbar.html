@@ -1,0 +1,20 @@
+{% load static %}
+
+<nav class="p-3 2md:px-3 2md:py-2 2md:pl-6 2md:rounded-[9999px] 2md:mb-12 2md:top-5 shadow-sm transition-all">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" onclick="navbarOverlayFunc(0);" class="size-6 2md:hidden cursor-pointer">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+    </svg>
+    <div class="navbar-overlay 2md:hidden transition-all" id="navbarOverlay">
+        <i onclick="navbarOverlayFunc(0);"></i>
+        <ul class="p-4 overflow-hidden overflow-y-auto">
+            <!-- Navbar Items -->
+            {% include 'includes/_navbar_sidebar_items.html' %}
+        </ul>
+    </div>
+    <a href="/" class="2md:hidden">
+        <img src="{% static '/images/logo/svg/Ayah_Quran_App_Logotype_B.svg' %}" alt="Ayah Logo" class="size-10 drop-shadow-md transition-all" id="lightModeLogo" draggable="false">
+        <img src="{% static '/images/logo/svg/Ayah_Quran_App_Logotype_W.svg' %}" alt="Ayah Logo" class="hidden size-10 drop-shadow-md transition-all" id="darkModeLogo" draggable="false">
+    </a>
+    <a href="/" class="max-2md:hidden"><img src="{% static '/images/logo/svg/Ayah_Quran_App_Logo_Type_ll.svg' %}" alt="Ayah Logo" class="size-[3.3rem] drop-shadow-md transition-all" draggable="false"></a>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer" onclick="modalFunc('modalOverlaySearch');"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+</nav>

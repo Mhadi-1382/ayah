@@ -1,0 +1,46 @@
+{% load static %}
+
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert-container">
+            {% if msg.tags == 'success' %}
+                <div class="alert alert-success flex items-center gap-2 py-4 px-5 rounded-full drop-shadow-sm" id="alertSuccess">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <p>{{ msg }}</p>
+                </div>
+            {% elif msg.tags == 'error' %}
+                <div class="alert alert-error flex items-center gap-2 py-4 px-5 rounded-full drop-shadow-sm" id="alertError">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <p>{{ msg }}</p>
+                </div>
+            {% elif msg.tags == 'warning' %}
+                <div class="alert alert-warning flex items-center gap-2 py-4 px-5 rounded-full drop-shadow-sm" id="alertWarning">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>
+                    <p>{{ msg }}</p>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script>
+    const alertSuccessId = document.getElementById('alertSuccess');
+    const alertErrorId = document.getElementById('alertError');
+    const alertWarningId = document.getElementById('alertWarning');
+    
+    setTimeout(() => {
+        alertSuccessId.classList.add('alert-container-hide_');
+    }, 5000);
+    setTimeout(() => {
+        alertErrorId.classList.add('alert-container-hide__');
+    }, 5000);
+    setTimeout(() => {
+        alertWarningId.classList.add('alert-container-hide___');
+    }, 5000);
+</script>

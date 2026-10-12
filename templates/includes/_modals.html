@@ -1,0 +1,712 @@
+{% load static %}
+{% load custome_filter %}
+
+<!-- <script src="https://unpkg.com/htmx.org@1.9.6"></script> -->
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script>
+    function liveTyperSearch() {
+        let resultsId = document.getElementById('results');
+        let modalSearchInputId = document.getElementById('modalSearchInput');
+        let resultsSearchTitleTypeingId = document.getElementById('resultsSearchTitleTypeing');
+        
+        resultsSearchTitleTypeingId.innerHTML = "'" + modalSearchInputId.value + "'";
+        if (modalSearchInputId.value === '') {
+            resultsId.innerHTML = `
+            <div class="mt-4 text-gray-700">
+                <h3 class="text-[16px] font-[500]">قابلیتهای جستجو</h3>
+                <div class="mb-2">
+                    <li class="list-disc">جستجوی نام سوره: « حمد »</li>
+                    <li class="list-disc">جستجوی نام دعا: « زیارت عاشورا »</li>
+                    <li class="list-disc">جستجوی حدیث: « امام رضا (ع) »</li>
+                    <li class="list-disc">جستجوی زیارت مجازی: « حرم امام حسین (ع) »</li>
+                    <li class="list-disc">جستجوی وصیتنامه شهدا: « شهید حاج قاسم سلیمانی »</li>
+                </div>
+            </div>
+            `;
+        }
+    }
+</script>
+<style>
+    .htmx-indicator {display: none;}
+    .htmx-request .htmx-indicator {display: block !important;}
+</style>
+
+<!-- Modal: Search -->
+<div class="modal-overlay" id="modalOverlaySearch">
+    <i onclick="modalFunc('modalOverlaySearch');"></i>
+    <div class="modal p-4 transition-all">
+        <div class="modal-line" onclick="modalFunc('modalOverlaySearch');"></div>
+        <div class="modal-header">
+            <!-- Form: Search -->
+            <form onsubmit="return false;">
+                {% csrf_token %}
+                
+                <div class="flex items-center mt-[0.5rem]">
+                    <label for="modalSearchInput" class="absolute pr-[1rem] pb-[0.4rem]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 cursor-pointer text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                    </label>
+                    <input type="search" placeholder="جستجو" class="pr-[2.6rem]" id="modalSearchInput" onkeyup="liveTyperSearch(0);" name="q" hx-get="/search/" hx-trigger="keyup changed delay:300" hx-target="#results" hx-swap="innerHTML" hx-indicator=".htmx-indicator" required>
+                    <div id="loadingSearch" class="text-sm text-gray-400 font-[500] htmx-indicator">درحال جستجو...</div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="-mt-3 text-gray-700">
+                <h3 class="text-[17px] font-[500] mb-2">جستجو نتایج برای: <span id="resultsSearchTitleTypeing"></span></h3>
+                <div class="mb-2">
+                    <div id="loadingSearch" class="text-sm text-gray-400 font-[500] htmx-indicator">درحال جستجو...</div>
+                    <div id="results">
+                        <div class="mt-4 text-gray-700">
+                            <h3 class="text-[16px] font-[500]">قابلیتهای جستجو</h3>
+                            <div class="mb-2">
+                                <li class="list-disc">جستجوی نام سوره: « حمد »</li>
+                                <li class="list-disc">جستجوی نام دعا: « زیارت عاشورا »</li>
+                                <li class="list-disc">جستجوی حدیث: « امام رضا (ع) »</li>
+                                <li class="list-disc">جستجوی زیارت مجازی: « حرم امام حسین (ع) »</li>
+                                <li class="list-disc">جستجوی وصیتنامه شهدا: « شهید حاج قاسم سلیمانی »</li>
+                            </div>
+                        </div>
+                        
+                        {% include 'includes/_search_results.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if request.user.is_authenticated %}
+    <!-- Modal: Profile -->
+    <div class="modal-overlay" id="modalOverlayProfile">
+        <i onclick="modalFunc('modalOverlayProfile');"></i>
+        <div class="modal p-4">
+            <div class="modal-line" onclick="modalFunc('modalOverlayProfile');"></div>
+            <div class="modal-header pt-2">
+                <div class="flex items-center justify-center flex-col gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16 text-gray-500 bg-slate-100 rounded-full p-3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                    <span>
+                        <h3 class="text-[17px] font-[500]">{{ request.user.username }}</h3>
+                        <p dir="auto">{{ request.user.last_login | to_jalali }}</p>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="w-[100%] flex flex-col items-center">
+                    {% if request.user.is_superuser %}
+                        <a href="javascript:modalFunc('modalOverlayAdminGuide');" class="w-[100%]">
+                            <li class="p-3 px-4 rounded-2xl active:bg-gray-50/50 flex items-center justify-between gap-2 transition-all">
+                                <span class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.712 4.33a9.027 9.027 0 0 1 1.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 0 0-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 0 1 0 9.424m-4.138-5.976a3.736 3.736 0 0 0-.88-1.388 3.737 3.737 0 0 0-1.388-.88m2.268 2.268a3.765 3.765 0 0 1 0 2.528m-2.268-4.796a3.765 3.765 0 0 0-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 0 1-1.388.88m2.268-2.268 4.138 3.448m0 0a9.027 9.027 0 0 1-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0-3.448-4.138m3.448 4.138a9.014 9.014 0 0 1-9.424 0m5.976-4.138a3.765 3.765 0 0 1-2.528 0m0 0a3.736 3.736 0 0 1-1.388-.88 3.737 3.737 0 0 1-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 0 1-1.652-1.306 9.027 9.027 0 0 1-1.306-1.652m0 0 4.138-3.448M4.33 16.712a9.014 9.014 0 0 1 0-9.424m4.138 5.976a3.765 3.765 0 0 1 0-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 0 1 1.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 0 0-1.652 1.306A9.025 9.025 0 0 0 4.33 7.288" />
+                                    </svg>
+                                    <span>راهنمای مدیر</span>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                </svg>
+                            </li>
+                        </a>
+                    {% else %}
+                        <a href="javascript:modalFunc('modalOverlayProfileEdit');" class="w-[100%]">
+                            <li class="p-3 px-4 rounded-2xl active:bg-gray-50/50 flex items-center justify-between gap-2 transition-all">
+                                <span class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش پروفایل</span>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                </svg>
+                            </li>
+                        </a>
+                        <a href="javascript:modalFunc('modalOverlaySettings');" class="w-[100%]">
+                            <li class="p-3 px-4 rounded-2xl active:bg-gray-50/50 flex items-center justify-between gap-2 transition-all">
+                                <span class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+                                    <span>تنظیمات</span>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                </svg>
+                            </li>
+                        </a>
+                    {% endif %}
+                    
+                    <a href="javascript:modalFunc('modalOverlayBookmarksPersonalNote'), modalFunc('modalOverlayProfile');" onclick="tabSignInUpFirstFunc('tabItemBookmarks', 'tabItemPersonalNote', 'tabContentBookmarks', 'tabContentPersonalNote');" class="w-[100%]">
+                        <li class="p-3 px-4 rounded-2xl active:bg-gray-50/50 flex items-center justify-between gap-2 transition-all">
+                            <span class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                </svg>
+                                <span>نشان شده ها</span>
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                            </svg>
+                        </li>
+                    </a>
+                    <a href="javascript:modalFunc('modalOverlayBookmarksPersonalNote'), modalFunc('modalOverlayProfile');" onclick="tabSignInUpSecondFunc('tabItemBookmarks', 'tabItemPersonalNote', 'tabContentBookmarks', 'tabContentPersonalNote');" class="w-[100%]">
+                        <li class="p-3 px-4 rounded-2xl active:bg-gray-50/50 flex items-center justify-between gap-2 transition-all">
+                            <span class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                </svg>
+                                <span>یادداشت شخصی</span>
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                            </svg>
+                        </li>
+                    </a>
+                    <a href="/profile/signout/" class="w-[100%]">
+                        <li class="p-3 px-4 rounded-2xl text-red-400 active:bg-gray-50/50 flex items-center gap-2 transition-all signout-btn-profile">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                            </svg>
+                            <span>خروج از حساب کاربری</span>
+                        </li>
+                    </a>
+                </div>
+                <div class="flex flex-col items-center justify-center text-sm text-gray-400 mt-10">
+                    <p class="">Ayah Web App</p>
+                    <p class="">VER 1.0.1</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Profile: Bookmarks & Personal Note -->
+    <div class="modal-overlay" id="modalOverlayBookmarksPersonalNote">
+        <i onclick="modalFunc('modalOverlayBookmarksPersonalNote');"></i>
+        <div class="modal p-4 transition-all">
+            <div class="modal-line" onclick="modalFunc('modalOverlayBookmarksPersonalNote');"></div>
+            <div class="modal-header w-[100%]" style="margin-bottom: 0;">
+                <!-- Tab: Bookmarks & Personal Note -->
+                <div class="tab w-[100%]">
+                    <li class="tab-active" id="tabItemBookmarks" onclick="tabSignInUpFirstFunc('tabItemBookmarks', 'tabItemPersonalNote', 'tabContentBookmarks', 'tabContentPersonalNote');">نشان شده ها</li>
+                    <li class="" id="tabItemPersonalNote" onclick="tabSignInUpSecondFunc('tabItemBookmarks', 'tabItemPersonalNote', 'tabContentBookmarks', 'tabContentPersonalNote');">یادداشت شخصی</li>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="transition-all" id="tabContentBookmarks">
+                    {% if bookmarks %}
+                        <div class="flex flex-col gap-2 w-[100%]">
+                            {% for bookmark in bookmarks %}
+                                <a href="{{ bookmark.link_bookmark }}" class="flex w-[100%]">
+                                    <div class="py-4 px-5 bg-gray-50 rounded-full flex items-center justify-between gap-2 w-[100%]">
+                                        <h3 class="text-gray-500 font-[500] flex items-center gap-2 w-[100%]">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                            </svg>
+                                            <span class="w-[100%]">{{ bookmark.title_bookmark }}</span>
+                                        </h3>
+                                        <div class="flex items-center gap-2">
+                                            <!-- Form: Bookmark: Remove -->
+                                            <form action="{% url 'bookmark_remove' bookmark_id=bookmark.id %}" method="post" style="all: unset;">
+                                                {% csrf_token %}
+
+                                                <button style="cursor: pointer !important; all: unset;" title="حذف محتوای نشان شده">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-400">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="flex items-center flex-col justify-center gap-2 text-center mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-gray-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                            </svg>
+                            <p class="text-sm text-gray-400 font-[500]">موردی یافت نشد.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="hidden transition-all" id="tabContentPersonalNote">
+                    <div class="flex flex-col gap-2">
+                        {% if notes %}
+                            {% for note in notes %}
+                                <div class="p-4 bg-gray-50 rounded-3xl flex items-center justify-between gap-2 notes-dark-mode">
+                                    <div class="flex flex-col gap-2 w-[100%]">
+                                        <div class="flex items-center justify-between gap-4 w-[100%]">
+                                            <a href="javascript:modalFunc('modalOverlayEditPersonalNote_{{ note.id }}');">
+                                                <h3 class="text-gray-500 font-[500] text-base flex items-center gap-2">{{ note.title }}</h3>
+                                            </a>
+                                            <!-- Form: Personal Note: Remove -->
+                                            <form action="{% url 'note_remove' note_id=note.id %}" method="post" style="all: unset;">
+                                                {% csrf_token %}
+
+                                                <button style="cursor: pointer !important; all: unset;" title="حذف یادداشت">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-400">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <a href="javascript:modalFunc('modalOverlayEditPersonalNote_{{ note.id }}');" class="w-[100%]">
+                                            <p class="w-[100%]">{{ note.text }}</p>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Modal: Edit Personal Note -->
+                                <div class="modal-overlay" id="modalOverlayEditPersonalNote_{{ note.id }}">
+                                    <i onclick="modalFunc('modalOverlayEditPersonalNote_{{ note.id }}');"></i>
+                                    <div class="modal p-4">
+                                        <div class="modal-line" onclick="modalFunc('modalOverlayEditPersonalNote_{{ note.id }}');"></div>
+                                        <div class="modal-header">            
+                                            <h3 class="text-base font-[500]">ویرایش یادداشت: {{ note.title }}<h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="flex flex-col gap-2">
+                                                <!-- Form: Personal Note: Edit -->
+                                                <form action="{% url 'note_edit' note_id=note.id %}" method="post">
+                                                    {% csrf_token %}
+
+                                                    <input type="text" placeholder="موضوع جدید یادداشت" value="{{ note.title }}" class="" name="noteForEditTitle" maxlength="500" required>
+                                                    <textarea rows="5" placeholder="متن جدید یادداشت را وارد کنید." class="" id="noteForEditText_{{ note.id }}" name="noteForEditText" required></textarea>
+                                                    <input type="submit" value="ذخیره تغییرات" class="">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    const noteForEditText__{{ note.id }} = document.getElementById('noteForEditText_{{ note.id }}');
+                                    noteForEditText__{{ note.id }}.innerHTML = '{{ note.text }}';
+                                </script>
+                            {% endfor %}
+                        {% else %}
+                            <div class="flex items-center flex-col justify-center gap-2 text-center mx-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-gray-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                                </svg>
+                                <p class="text-sm text-gray-400 font-[500]">موردی یافت نشد.</p>
+                            </div>
+                        {% endif %}
+
+                        <!-- Modal: Add Personal Note -->
+                        <div class="modal-overlay" id="modalOverlayAddPersonalNote">
+                            <i onclick="modalFunc('modalOverlayAddPersonalNote');"></i>
+                            <div class="modal p-4">
+                                <div class="modal-line" onclick="modalFunc('modalOverlayAddPersonalNote');"></div>
+                                <div class="modal-header">            
+                                    <h3 class="text-base font-[500]">افزودن یادداشت</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="flex flex-col gap-2">
+                                        <!-- Form: Personal Note: Add -->
+                                        <form action="/note/add/" method="post">
+                                            {% csrf_token %}
+
+                                            <input type="text" placeholder="موضوع یادداشت" class="" name="noteTitle" maxlength="500" required>
+                                            <textarea rows="5" placeholder="متن یادداشت را وارد کنید." class="" name="noteText" required></textarea>
+                                            <input type="submit" value="ذخیره" class="">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="javascript:modalFunc('modalOverlayAddPersonalNote');" class="flex w-[fit-content] sticky bottom-[5px]">
+                        <button class="flex items-center justify-center bg-blue-400 active:bg-blue-300 p-2 size-12 rounded-full transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if request.user.is_superuser %}
+        
+    {% else %}
+        <!-- Modal: Profile: Edit -->
+        <div class="modal-overlay" id="modalOverlayProfileEdit">
+            <i onclick="modalFunc('modalOverlayProfileEdit');"></i>
+            <div class="modal p-4">
+                <div class="modal-line" onclick="modalFunc('modalOverlayProfileEdit');"></div>
+                <div class="modal-header">
+                    <h3 class="text-base font-[500]">ویرایش پروفایل</h3>
+                </div>
+                <div class="modal-body">
+                    <!-- Form: Profile: Edit -->
+                    <form action="profile/edit/" method="post">
+                        {% csrf_token %}
+
+                        <input type="text" placeholder="نام و نام خانوادگی" name="usernameForEdit" value="{{ request.user.username }}" class="" required>
+                        <input type="submit" value="ثبت تغییرات" class="">
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <!-- Modal: Signin & Signup -->
+    <div class="modal-overlay" id="modalOverlaySignInUp">
+        <i onclick="modalFunc('modalOverlaySignInUp');"></i>
+        <div class="modal p-4 transition-all" id="modalSignInUp">
+            <div class="modal-line" onclick="modalFunc('modalOverlaySignInUp');"></div>
+            <div class="modal-header">
+                <h3 class="text-base font-[500]">وررد به حساب کاربری / ثبت نام</h3>
+            </div>
+            <div class="modal-body">
+                <!-- Tab: Signin & Signup -->
+                <div class="tab">
+                    <li class="tab-active" id="tabItemSignIn" onclick="tabSignInUpFirstFunc('tabItemSignIn', 'tabItemSignUp', 'tabContentSignIn', 'tabContentSignUp');">وررد به حساب</li>
+                    <li class="" id="tabItemSignUp" onclick="tabSignInUpSecondFunc('tabItemSignIn', 'tabItemSignUp', 'tabContentSignIn', 'tabContentSignUp');">ثبت نام</li>
+                </div>
+
+                <div class="transition-all" id="tabContentSignIn">
+                    <!-- Form: Signin -->
+                    <form action="{% url 'signin' %}" method="post">
+                        {% csrf_token %}
+
+                        <input type="tel" placeholder="شماره تماس" dir="rtl" class="" name="phone" id="tabSignInInputTel" required>
+                        <input type="password" placeholder="رمز عبور" class="" name="password" id="tabSignInInputPassword" required>
+                        <input type="submit" value="وررد به حساب" id="tabSignInInputSubmit" disabled>
+                    </form>
+
+                    <script>
+                        const tabSignInInputTelId = document.getElementById('tabSignInInputTel');
+                        const tabSignInInputPasswordId = document.getElementById('tabSignInInputPassword');
+                        const tabSignInInputSubmitId = document.getElementById('tabSignInInputSubmit');
+
+                        function checkSignInInputSubmit() {
+                            if (tabSignInInputTelId.value.length >= 3 && tabSignInInputPasswordId.value.length >= 3) {
+                                tabSignInInputSubmitId.disabled = false;
+                            } else {
+                                tabSignInInputSubmitId.disabled = true;
+                            }
+                        }
+                        window.addEventListener('input', checkSignInInputSubmit);
+                    </script>
+                </div>
+                <div class="hidden transition-all" id="tabContentSignUp">
+                    <!-- Form: Signup -->
+                    <form action="{% url 'signup' %}" method="post">
+                        {% csrf_token %}
+
+                        <input type="text" placeholder="نام و نام خانوادگی" class="" name="username" id="tabSignUpInputUsername" required>
+                        <input type="tel" placeholder="شماره تماس" dir="rtl" class="" name="phone" id="tabSignUpInputTel" required>
+                        <input type="email" placeholder="ایمیل" dir="rtl" class="" name="email" id="tabSignUpInputEmail" required>
+                        <input type="password" placeholder="رمز عبور" class="" name="password" id="tabSignUpInputPassword" required>
+                        <input type="submit" value="ثبت نام" id="tabSignUpInputSubmit" disabled>
+                    </form>
+
+                    <script>
+                        const tabSignUpInputUsernameId = document.getElementById('tabSignUpInputUsername');
+                        const tabSignUpInputTelId = document.getElementById('tabSignUpInputTel');
+                        const tabSignUpInputEmailId = document.getElementById('tabSignUpInputEmail');
+                        const tabSignUpInputPasswordId = document.getElementById('tabSignUpInputPassword');
+                        const tabSignUpInputSubmitId = document.getElementById('tabSignUpInputSubmit');
+                
+                        function checkSignUpInputSubmit() {
+                            if (tabSignUpInputUsernameId.value.length >= 3 && tabSignUpInputTelId.value.length >= 3 && tabSignUpInputEmailId.value.length >= 3 && tabSignUpInputPasswordId.value.length >= 3) {
+                                tabSignUpInputSubmitId.disabled = false;
+                            } else {
+                                tabSignUpInputSubmitId.disabled = true;
+                            }
+                        }
+                        window.addEventListener('input', checkSignUpInputSubmit);
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Modal: Settings -->
+<div class="modal-overlay" id="modalOverlaySettings">
+    <i onclick="modalFunc('modalOverlaySettings');"></i>
+    <div class="modal p-4">
+        <div class="modal-line" onclick="modalFunc('modalOverlaySettings');"></div>
+        <div class="modal-header">            
+            <h3 class="text-base font-[500]">تنظیمات</h3>
+        </div>
+        <div class="modal-body">
+            <div class="flex flex-col gap-2">
+                <div>
+                    <h4 class="font-[600] text-base text-gray-600 mb-2">تنظیمات ظاهری</h4>
+                    <div class="m-2">
+                        <p class="text-gray-500 mb-4">در این بخش می‌توانید حالت نمایش سایت را تغییر دهید. این گزینه به شما کمک می‌کند تا بر اساس نور محیط و راحتی چشمانتان، بهترین تجربه کاربری را داشته باشید، همچنین با فعالسازی حالت تاریک در مصرف باطری صرفه جویی کنید.</p>
+
+                        <!-- Tab: Switch Dark & Light Mode -->
+                        <div class="tab w-[100%] !bg-gray-100" style="border: none;">
+                            <li class="flex items-center justify-center gap-2" id="lightModeBtn" onclick="tabSignInUpFirstFunc('lightModeBtn', 'darkModeBtn', '', '');">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                                </svg>
+                                <span>روشن</span>
+                            </li>
+                            <li class="flex items-center justify-center gap-2" id="darkModeBtn" onclick="tabSignInUpSecondFunc('lightModeBtn', 'darkModeBtn', '', '');">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                                </svg>
+                                <span>تاریک</span>
+                            </li>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-[600] text-base text-gray-600 mb-2">تنظیمات نوتیفیکیشن</h4>
+                    <div class="m-2">
+                        <p class="text-gray-500 mb-4">در این بخش می‌توانید تنظیمات مربوط به دریافت اعلان‌ها را مدیریت کنید. با فعال بودن این گزینه، می‌توانید اعلانات اپلیکیشن را دریافت کنید.</p>
+                        
+                        <!-- Tab: Switch Enable & Disable Notifications -->
+                        <div class="tab w-[100%] !bg-gray-100" style="border: none;">
+                            <li class="" id="askNotifications">درخواست فعالسازی</li>
+                            <li class="" id="enableNotifications" onclick="modalFunc('modalOverlayInfoEnableDisableNotifications');">فعال</li>
+                            <li class="" id="disableNotifications" onclick="modalFunc('modalOverlayInfoEnableDisableNotifications');">غیرفعال</li>
+                        </div>
+
+                        <script>
+                            const askNotificationsId = document.getElementById('askNotifications');
+                            const enableNotificationsId = document.getElementById('enableNotifications');
+                            const disableNotificationsId = document.getElementById('disableNotifications');
+
+                            if (Notification.permission === 'granted') {
+                                enableNotificationsId.classList.add('tab-active');
+                                askNotificationsId.classList.add('hidden');
+                            } else if (Notification.permission === 'denied') {
+                                disableNotificationsId.classList.add('tab-active');
+                                askNotificationsId.classList.add('hidden');
+                            } else {
+                                enableNotificationsId.classList.add('hidden');
+                                disableNotificationsId.classList.add('hidden');
+                                askNotificationsId.onclick = () => {
+                                    askNotificationsId.classList.add('tab-active');
+
+                                    Notification.requestPermission().then(permission => {
+                                        if (permission === 'granted') {
+                                            new Notification('Enable Notification');
+                                        }
+                                    })
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-[600] text-base text-gray-600 mb-2">بروزرسانی</h4>
+                    <div class="m-2">
+                        <p class="text-gray-500 mb-4">با استفاده از این گزینه، می‌توانید اپلیکیشن را بدون استفاده از کش مجدداً بارگیری کنید. این کار باعث دریافت آخرین تغییرات و بروزرسانی‌های اعمال‌شده در اپلیکیشن می‌شود.</p>
+                        
+                        <h4 class="font-[500]" id="statusUpdate"></h4>
+                        <button class="py-2 px-4 mt-4 text-white bg-blue-400 hover:bg-blue-300 active:bg-blue-300 rounded-3xl transition-all hidden" id="buttonUpdate">بروزرسانی</button>
+                        
+                        <style>
+                            .button-update-show {display: flex;}
+                        </style>
+
+                        <script>
+                            const statusUpdateId = document.getElementById('statusUpdate');
+                            const buttonUpdateId = document.getElementById('buttonUpdate');
+                            
+                            window.addEventListener('pageshow', function(event) {
+                                if (event.persisted) {
+                                    if (navigator.onLine) {
+                                        statusUpdateId.innerHTML = `<span class="text-blue-500">یک بروزرسانی جدید در دسترس است! برای دریافت آخرین تغییرات و بهبودها، اپلیکیشن را بروزرسانی کنید.</span>`;
+                                        buttonUpdateId.classList.toggle('button-update-show');
+                                        buttonUpdateId.onclick = () => {
+                                            buttonUpdateId.innerHTML = `<span class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 text-white animate-spin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6l0 -3" /><path d="M6 12l-3 0" /><path d="M7.75 7.75l-2.15 -2.15" /></svg> <span>درحال اعمال بروزرسانی...</span></span>`;
+                                            setTimeout(() => {
+                                                window.location.reload(true);
+                                            }, 3000);
+                                        }
+                                    }
+                                } else {
+                                    statusUpdateId.innerHTML = 'شما از آخرین نسخه اپلیکیشن استفاده می‌کنید 🎉';
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Info Enable & Disable Notifications -->
+<div class="modal-overlay" id="modalOverlayInfoEnableDisableNotifications">
+    <i onclick="modalFunc('modalOverlayInfoEnableDisableNotifications');"></i>
+    <div class="modal p-4">
+        <div class="modal-line" onclick="modalFunc('modalOverlayInfoEnableDisableNotifications');"></div>
+        <div class="modal-header">            
+            <h3 class="text-base font-[500]">راهنمای فعال یا غیرفعالسازی نوتیفیکیشن</h3>
+        </div>
+        <div class="modal-body">
+            <div class="flex flex-col gap-2">
+                <p>کاربر گرامی، <br /> شما باید بصورت دستی فعال یا غیرفعالسازی نوتیفیکیشن را انجام دهید، وارد <span class="font-[500]">تنظیمات مرورگر یا تنظیمات برنامه نصب شده در موبایل شوید و گزینه دسترسی ها یا نوتیفیکیشن</span> را انتخاب و درصورت نیاز دسترسی را فعال یا غیرفعال کنید.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: About Us -->
+{% include 'includes/_modals_about.html' %}
+
+<!-- Modal: Contact Us -->
+<div class="modal-overlay" id="modalOverlayContactUs">
+    <i onclick="modalFunc('modalOverlayContactUs');"></i>
+    <div class="modal p-4">
+        <div class="modal-line" onclick="modalFunc('modalOverlayContactUs');"></div>
+        <div class="modal-header">
+            <h3 class="text-base font-[500]">ارتباط با ما</h3>
+            <p class="text-gray-500 text-sm px-4" style="margin-top: -12px;">برای ارسال نظرات و پیشنهادات خود، می توانید از راه های زیر با ما در ارتباط باشید.</p>
+        </div>
+        <div class="modal-body">
+            <div class="flex flex-col items-center gap-2">
+                <a href="javascript:modalFunc('modalOverlayContactUsForm');" class="w-[100%]">
+                    <li class="p-3 px-4 rounded-2xl bg-gray-50 active:bg-gray-50/70 flex items-center gap-2 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                        </svg>
+                        <span>ارتباط از طریق فرم</span>
+                    </li>
+                </a>
+                <a href="https://eitaa.com/Mahdirabiee" class="w-[100%]">
+                    <li class="p-3 px-4 rounded-2xl bg-gray-50 active:bg-gray-50/70 flex items-center gap-2 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                        </svg>                          
+                        <span>ارتباط از طریق ایتا</span>
+                    </li>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay" id="modalOverlayContactUsForm">
+    <i onclick="modalFunc('modalOverlayContactUsForm');"></i>
+    <div class="modal p-4">
+        <div class="modal-line" onclick="modalFunc('modalOverlayContactUsForm');"></div>
+        <div class="modal-header">
+            <h3 class="text-base font-[500]">ارتباط از طریق فرم</h3>
+        </div>
+        <div class="modal-body">
+            <!-- Form: Contactus -->
+            <form action="{% url 'contact_us' %}" method="post">
+                {% csrf_token %}
+
+                <input type="text" placeholder="نام و نام خانوادگی" class="" id="contactusUsername" value="{{ request.user.username }}" name="contactusUsername" required>
+                <input type="tel" placeholder="شماره تماس" dir="rtl" class="" id="contactusTel" value="{{ request.user.phone }}" name="contactusTel" required>
+                <input type="email" placeholder="ایمیل" class="" id="contactusEmail" value="{{ request.user.email }}" name="contactusEmail" required>
+                <textarea rows="3" placeholder="پیام شما" class="" id="contactusMessage" name="contactusMessage" required></textarea>
+                <input type="submit" value="ارسال" class="" id="contactusSubmit" disabled>
+            </form>
+
+            <script>
+                const contactusUsernameId = document.getElementById('contactusUsername');
+                const contactusTelId = document.getElementById('contactusTel');
+                const contactusEmailId = document.getElementById('contactusEmail');
+                const contactusMessageId = document.getElementById('contactusMessage');
+                const contactusSubmitId = document.getElementById('contactusSubmit');
+
+                function checkContactusInputSubmit() {
+                    if (contactusUsernameId.value.length >= 3 && contactusTelId.value.length >= 3 && contactusEmailId.value.length >= 3 && contactusMessageId.value.length >= 3) {
+                        contactusSubmitId.disabled = false;
+                    } else {
+                        contactusSubmitId.disabled = true;
+                    }
+                }
+                window.addEventListener('input', checkContactusInputSubmit);
+            </script>
+        </div>
+    </div>
+</div>
+
+{% if request.user.is_superuser %}
+    <!-- Modal: Admin Guide -->
+    {% include 'includes/_modals_admin_guide.html' %}
+{% else %}
+    <!-- Modal: User Guide -->
+    <div class="modal-overlay" id="modalOverlayUserGuide">
+        <i onclick="modalFunc('modalOverlayUserGuide');"></i>
+        <div class="modal p-4">
+            <div class="modal-line" onclick="modalFunc('modalOverlayUserGuide');"></div>
+            <div class="modal-header">            
+                <h3 class="text-base font-[500]">راهنما</h3>
+            </div>
+            <div class="modal-body">
+                <p class="mb-4">سلام کاربر گرامی، <br />مواردی که در پایین ذکر شده جهت راهنمایی و آشنایی شما با امکانات و ویژگیهای اپلیکیشن می‌باشد، لطفا به دقت مطالعه فرمایید.</p>
+                <details open>
+                    <summary>
+                        <span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
+                                </svg>
+                            </span>
+                            <h4>بخشهای صفحه اصلی</h4>
+                        </span>
+                    </summary>
+                    <div class="flex flex-col gap-2">
+                        <li class="list-disc">
+                            <span><span class="font-[500]">فهرست سوره‌ها:</span> در اين بخش می‌توانید به تمام سوره های قرآن کریم دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">ادعیه و زیارات:</span> در اين بخش می‌توانید به تمام دعاها و زیارات معصومین دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">احادیث:</span> در اين بخش می‌توانید به حدیث های معصومین دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">زیارات مجازی:</span> در اين بخش می‌توانید بصورت مجازی از زیارتگاه‌های معصومین زیارت کنید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">وصیتنامه شهدا:</span> در اين بخش می‌توانید به وصیتنامه شهدا دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">ذکر‌شمار:</span> در اين بخش می‌توانید به ذکرشمار که شامل چندین ذکر می باشد دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">سخنرانی ها (بزودی):</span> در اين بخش می‌توانید به مجموعه سخنرانیهای معروف که به سه صورت (متنی، تصویری و صوتی) می باشد، دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">کتابخانه (بزودی):</span> در اين بخش می‌توانید به کتابهایی همچون؛ نهج البلاغه، صحیفه سجادیه و... می باشد، دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">پویش ها (بزودی):</span> در اين بخش می‌توانید به پویشهایی که در اپلیکیشن تعریف می شود شرکت و جزییات آن را مشاهده و دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">ویژه فلسطین:</span> در اين بخش می‌توانید به محتویاتی که مربوط به فلسطین می شود دسترسی داشته باشید.</span> 
+                        </li>
+                        <li class="list-disc">
+                            <span><span class="font-[500]">رمضان‌یار:</span> در اين بخش می‌توانید به محتوای مورد نیاز در ماه رمضان مانند؛ قرآن کریم، دعاهای ماه مبارک رمضان و موارد دیگر دسترسی داشته باشید.</span> 
+                        </li>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Modal: Sources -->
+<div class="modal-overlay" id="modalOverlaySources">
+    <i onclick="modalFunc('modalOverlaySources');"></i>
+    <div class="modal p-4">
+        <div class="modal-line" onclick="modalFunc('modalOverlaySources');"></div>
+        <div class="modal-header">
+            <h3 class="text-base font-[500]">منابع</h3>
+        </div>
+        <div class="modal-body">
+            <div class="flex flex-col gap-2">
+                <a href="https://quran.anhar.ir/">پایگاه جامع قرآن کریم انهار</a>
+                <a href="https://erfan.ir/">پایگاه اطلاع رسانی استاد حسین انصاریان</a>
+                <a href="https://shohada.jangoderang.ir/">سامانه جامع شهدا استان مازندران</a>
+            </div>
+        </div>
+    </div>
+</div>

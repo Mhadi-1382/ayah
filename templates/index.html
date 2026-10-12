@@ -1,0 +1,819 @@
+{% extends 'includes/_base.html' %}
+
+{% load static %}
+
+{% block title %}آیه پلتفرم جامع قرآن{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block des %}آیه؛ پلتفرم جامع قرآن{% endblock %}
+{% block keywords %}آیه، اپلیکیشن آیه، وب اپلیکیشن آیه، پلتفرم جامع قرآن، اپلیکیشن قرآن{% endblock %}
+
+{% block content %}
+
+    <!-- Splash Screen -->
+    {% include 'includes/_splash.html' %}
+
+    <!-- Navbar -->
+    {% include 'includes/_navbar.html' %}
+
+    <!-- Modals -->
+    {% include 'includes/_modals.html' %}
+
+    <!-- Section: Main -->
+    <section class="section-main flex gap-8 max-2md:my-[1.3rem] transition-all">
+        <!-- Sidebar -->
+        {% include 'includes/_sidebar.html' %}
+
+        <!-- Section: Content -->
+        <section class="section-content max-2md:w-[96%] max-2md:mx-auto mb-4 2md:w-[calc(100%-230px)] flex flex-col gap-6 transition-all">
+            <!-- Card: Short Calendar -->
+            <div class="card-short-calendar px-6 -py-6 mt-2 flex flex-col text-white rounded-3xl transition-all" style="background: linear-gradient(45deg, rgba(159, 178, 212, 0.774), rgba(151, 174, 241, 0.705)), url(../static/images/elements/background-namaz.png); background-position: center; background-size: cover;">
+                <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center justify-between gap-4">
+                        <h3 class="text-5xl font-[500]" id="dateDay"></h3>
+                        <div class="flex flex-col text-base">
+                            <p id="dateWeekday"></p>
+                            <p id="dateMonthYear"></p>
+                        </div>
+                    </div>
+                    <div class="relative bottom-[18px]">
+                        <img src="{% static 'images/elements/moon_sky.png' %}" alt="" class="w-[85px]" draggable="false">
+                    </div>
+                </div>
+                <!-- <details style="gap: 0; align-items: stretch;" class="pb-2" id="shortCalendarEvents">
+                    <summary class="bg-transparent p-[0px] gap-2" style="justify-content: stretch; margin-top: -10px; background: transparent !important;">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-5 p-[4px] bg-white/60 rounded-full">
+                            <path class="fill-slate-400" fill-rule="evenodd" clip-rule="evenodd" d="M4.71369 2.27884C2.83104 3.48792 1.78515 4.89515 1.57601 6.50057C1.25042 8.99985 3.48547 10.2232 4.61794 9.12402C5.75042 8.0249 5.07157 6.62975 4.25154 6.2484C3.43152 5.86702 2.93004 5.99985 3.01752 5.49025C3.10499 4.98062 4.27164 3.56767 5.29659 2.90965C5.36459 2.85182 5.39047 2.73962 5.32499 2.65452C5.28192 2.59852 5.19744 2.48874 5.07157 2.32513C4.96149 2.18207 4.85604 2.18742 4.71369 2.27884Z" fill="white"/>
+                            <path class="fill-slate-400" fill-rule="evenodd" clip-rule="evenodd" d="M9.67009 2.27884C7.78747 3.48792 6.74157 4.89515 6.53242 6.50057C6.20684 8.99985 8.44189 10.2232 9.57437 9.12402C10.7068 8.0249 10.028 6.62975 9.20797 6.2484C8.38794 5.86702 7.88644 5.99985 7.97394 5.49025C8.06142 4.98062 9.22807 3.56767 10.253 2.90965C10.321 2.85182 10.3469 2.73962 10.2814 2.65452C10.2383 2.59852 10.1539 2.48874 10.028 2.32513C9.91792 2.18207 9.81247 2.18742 9.67009 2.27884Z" fill="white"/>
+                        </svg>
+                        <span class="font-[600] text-[13px] text-white">مناسبت های امروز</span>
+                    </summary>
+                    
+                    <div class="flex flex-col text-white" id="resultEvents">
+                        <li class="list-disc">روز ملی هسته ای</li>
+                        <li class="list-disc">روز هنر</li>
+                    </div>
+                </details> -->
+            </div>
+
+            <!-- Card: Accessories -->
+            <div class="card-accessories flex flex-wrap gap-4 text-center transition-all">
+                <a href="/surah/" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/reading.svg' %}" alt="reading" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">فهرست سوره ها</p>
+                    </div>
+                </a>
+                <a href="/doa/" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/sajadah.svg' %}" alt="sajadah" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">ادعیه و زیارات</p>
+                    </div>
+                </a>
+                <a href="/ahadis/" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/al_quran.svg' %}" alt="al_quran" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">احادیث</p>
+                    </div>
+                </a>
+                <a href="/ziyart_majazi/" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/mushola.svg' %}" alt="mushola" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">زیارت مجازی</p>
+                    </div>
+                </a>
+                <a href="/vasiatnameh_shohada/" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/ketupat.svg' %}" alt="ketupat" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">وصیتنامه شهدا</p>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayZekarCounter');" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/bead.svg' %}" alt="bead" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">ذکر شمار</p>
+                    </div>
+                </a>
+                <a href="javascript:void(0);" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/mosque.svg' %}" alt="mosque" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">سخنرانی‌ها <span class="text-gray-500" style="font-size: 10px;">(بزودی)</span></p>
+                    </div>
+                </a>
+                <a href="javascript:void(0);" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/library.svg' %}" alt="library" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">کتابخانه <span class="text-gray-500" style="font-size: 10px;">(بزودی)</span></p>
+                    </div>
+                </a>
+                <a href="javascript:void(0);" class="w-[fit-content] flex">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/calendar.svg' %}" alt="calendar" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">پویش ها <span class="text-gray-500" style="font-size: 10px;">(بزودی)</span></p>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlaySpecialPalestine');" class="w-[fit-content] flex" onclick="modalPalestineAudioPlayFunc(0);">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/palestine.svg' %}" alt="palestine" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">ویژه فلسطین</p>
+                    </div>
+                </a>
+                <a href="javascript:modalFunc('modalOverlayRamadanYar');" class="w-[fit-content] flex" onclick="modalRamadanYarAudioPlayFunc(0);">
+                    <div class="card flex flex-col items-center gap-2 transition-all">
+                        <div class="flex items-center justify-center gap-2 bg-white hover:!bg-white p-3 lg:p-4 rounded-3xl outline outline-1 outline-blue-200/40 transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(237, 240, 250, 0.7)), url(../static/images/elements/bg-pattern.png); background-position: center; background-size: cover;">
+                            <img src="{% static 'images/icons/muslim.svg' %}" alt="muslim" class="size-8 lg:size-9 drop-shadow-md" draggable="false">
+                        </div>
+                        <p class="text-gray-500 w-[85px]">رمضان یار</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card: Zekar Ruz Va Hadis -->
+            <div class="card-zekar-ruz-va-hadis p-6 mt-14 bg-white flex flex-col rounded-3xl transition-all" style="background: linear-gradient(45deg, rgba(255, 255, 255, 0.800), rgba(243, 244, 248, 0.700)), url(../static/images/elements/background-namaz.png); background-position: center; background-size: cover;">
+                <div>
+                    <div class="flex items-center justify-between gap-2 transition-all">
+                        <h3 class="flex items-center gap-2">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-[1.6rem] p-[4px] bg-blue-200 rounded-full">
+                                <path class="fill-white" fill-rule="evenodd" clip-rule="evenodd" d="M4.71369 2.27884C2.83104 3.48792 1.78515 4.89515 1.57601 6.50057C1.25042 8.99985 3.48547 10.2232 4.61794 9.12402C5.75042 8.0249 5.07157 6.62975 4.25154 6.2484C3.43152 5.86702 2.93004 5.99985 3.01752 5.49025C3.10499 4.98062 4.27164 3.56767 5.29659 2.90965C5.36459 2.85182 5.39047 2.73962 5.32499 2.65452C5.28192 2.59852 5.19744 2.48874 5.07157 2.32513C4.96149 2.18207 4.85604 2.18742 4.71369 2.27884Z" fill="white"/>
+                                <path class="fill-white" fill-rule="evenodd" clip-rule="evenodd" d="M9.67009 2.27884C7.78747 3.48792 6.74157 4.89515 6.53242 6.50057C6.20684 8.99985 8.44189 10.2232 9.57437 9.12402C10.7068 8.0249 10.028 6.62975 9.20797 6.2484C8.38794 5.86702 7.88644 5.99985 7.97394 5.49025C8.06142 4.98062 9.22807 3.56767 10.253 2.90965C10.321 2.85182 10.3469 2.73962 10.2814 2.65452C10.2383 2.59852 10.1539 2.48874 10.028 2.32513C9.91792 2.18207 9.81247 2.18742 9.67009 2.27884Z" fill="white"/>
+                            </svg>
+                            <span class="font-[500] text-base text-gray-600">ذکر روز</span>
+                        </h3>
+                        <a href="javascript:modalFunc('modalOverlayZekarCounter');" class="py-2 px-4 hover:bg-blue-100/25 active:bg-blue-100/35 rounded-3xl text-blue-300 flex items-center gap-[4px] transition-all">
+                            <span>ذکر شمار</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-blue-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672ZM12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="flex flex-col items-center justify-center text-center gap-2 mt-6 cursor-pointer" onclick="modalFunc('modalOverlayZekarCounter');">
+                        <h2 class="font-Nabi font-[500] text-2xl text-gray-700" id="zekarRuzText"></h2>
+                        <p class="font-[500] text-gray-500" id="zekarRuzTranslate"></p>
+                    </div>
+                </div>
+                <hr class="my-6 border-blue-50" />
+                <div>
+                    <div class="flex items-center justify-between gap-2 transition-all">
+                        <h3 class="flex items-center gap-2">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-[1.6rem] p-[4px] bg-blue-200 rounded-full">
+                                <path class="fill-white" fill-rule="evenodd" clip-rule="evenodd" d="M4.71369 2.27884C2.83104 3.48792 1.78515 4.89515 1.57601 6.50057C1.25042 8.99985 3.48547 10.2232 4.61794 9.12402C5.75042 8.0249 5.07157 6.62975 4.25154 6.2484C3.43152 5.86702 2.93004 5.99985 3.01752 5.49025C3.10499 4.98062 4.27164 3.56767 5.29659 2.90965C5.36459 2.85182 5.39047 2.73962 5.32499 2.65452C5.28192 2.59852 5.19744 2.48874 5.07157 2.32513C4.96149 2.18207 4.85604 2.18742 4.71369 2.27884Z" fill="white"/>
+                                <path class="fill-white" fill-rule="evenodd" clip-rule="evenodd" d="M9.67009 2.27884C7.78747 3.48792 6.74157 4.89515 6.53242 6.50057C6.20684 8.99985 8.44189 10.2232 9.57437 9.12402C10.7068 8.0249 10.028 6.62975 9.20797 6.2484C8.38794 5.86702 7.88644 5.99985 7.97394 5.49025C8.06142 4.98062 9.22807 3.56767 10.253 2.90965C10.321 2.85182 10.3469 2.73962 10.2814 2.65452C10.2383 2.59852 10.1539 2.48874 10.028 2.32513C9.91792 2.18207 9.81247 2.18742 9.67009 2.27884Z" fill="white"/>
+                            </svg>
+                            <span class="font-[500] text-base text-gray-600">حدیث معصومان</span>
+                        </h3>
+                        <a href="/ahadis/" class="py-2 px-4 hover:bg-blue-100/25 active:bg-blue-100/35 rounded-3xl text-blue-300 flex items-center gap-[4px] transition-all">
+                            <span>نمایش همه</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-blue-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="flex flex-col items-center justify-center text-gray-500 text-center gap-2 mt-6">
+                        <h2 class="font-Nabi font-[500] text-base" style="line-height: 2.2;">{{ hadisRuz.ahadis_text_ar | safe }}</h2>
+                        <p class="">{{ hadisRuz.ahadis_text_translate | safe }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Modal: Zekar Counter -->
+    <div class="modal-overlay" id="modalOverlayZekarCounter">
+        <i onclick="modalFunc('modalOverlayZekarCounter');"></i>
+        <div class="modal p-4 transition-all" id="modalZekarCounter">
+            <div class="modal-line" onclick="modalFunc('modalOverlayZekarCounter');"></div>
+            <div class="modal-header !justify-between !flex-row gap-14 p-2" style="margin: 0 auto !important; align-items: flex-start;">
+                <div class="flex items-center gap-2" style="justify-content: stretch; text-align: right;">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 2md:hidden hidden cursor-pointer" id="modalOverlayZekarCounterBackwardBtn" onclick="modalFunc('modalOverlayZekarCounter');">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg> -->
+                    <span>
+                        <h3 class="text-base font-[500]">ذکر شمار</h3>
+                        <p class="text-gray-500">جهت تغییر ذکر می توانید در اسلایدر زیر ذکر مورد نظر را انتخاب کنید.</p>
+                    </span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="size-8 flex items-center justify-center rounded-full transition-all" onclick="zekarCounterReset(0);" title="بازنشانی">
+                        <span class="p-3 bg-blue-100/25 active:bg-blue-100/35 rounded-full flex items-center justify-center transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
+                        </span>
+                    </button>
+                    <button class="size-8 flex items-center justify-center rounded-full transition-all" onclick="requestFullScreenModalMobileFunc('modalZekarCounter', 'expandIconFullScreenModalZekarCounter', 'collapeIconFullScreenModalZekarCounter');">
+                        <span title="تمام صفحه" class="p-3 bg-blue-100/25 active:bg-blue-100/35 rounded-full flex items-center justify-center transition-all" id="expandIconFullScreenModalZekarCounter">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                            </svg>
+                        </span>
+                        <span title="بستن تمام صفحه" class="hidden p-3 bg-blue-100/25 active:bg-blue-100/35 rounded-full flex items-center justify-center transition-all" id="collapeIconFullScreenModalZekarCounter">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body h-[100%]">
+                <div class="flex flex-col items-center justify-around gap-6 h-[100%]">
+                    <div class="zekar-counter-container flex items-center gap-2 p-2 text-center cursor-pointer transition-all">
+                        <div class="card-zekar-counter flex flex-col items-center justify-center gap-[4px]" style="min-width: 100%; scroll-snap-align: center;">
+                            <h2 class="font-Nabi font-[500] text-2xl text-gray-700" style="line-height: 2.2;">یا رَبِّ الْعالَمِین</h2>
+                            <p class="font-[500] text-gray-500">ای پروردگار جهانیان</p>
+                        </div>
+                        <div class="card-zekar-counter flex flex-col items-center justify-center gap-[4px]" style="min-width: 100%; scroll-snap-align: center;">
+                            <h2 class="font-Nabi font-[500] text-2xl text-gray-700" style="line-height: 2.2;">یا ذَالجَلالِ وَ اْلاِکْرام</h2>
+                            <p class="font-[500] text-gray-500">ای صاحب جلال و بزرگواری</p>
+                        </div>
+                        <div class="card-zekar-counter flex flex-col items-center justify-center gap-[4px]" style="min-width: 100%; scroll-snap-align: center;">
+                            <h2 class="font-Nabi font-[500] text-2xl text-gray-700" style="line-height: 2.2;">یا قاضیَ الحاجات</h2>
+                            <p class="font-[500] text-gray-500">ای برآورنده حاجت ها</p>
+                        </div>
+                        <div class="card-zekar-counter flex flex-col items-center justify-center gap-[4px]" style="min-width: 100%; scroll-snap-align: center;">
+                            <h2 class="font-Nabi font-[500] text-2xl text-gray-700" style="line-height: 2.2;">یا أَرْحَمَ الرَّاحِمِین</h2>
+                            <p class="font-[500] text-gray-500">ای مهربان ترین مهربانان</p>
+                        </div>
+                        <div class="card-zekar-counter flex flex-col items-center justify-center gap-[4px]" style="min-width: 100%; scroll-snap-align: center;">
+                            <h2 class="font-Nabi font-[500] text-2xl text-gray-700" style="line-height: 2.2;">یا حَیُّ یا قَیّومُ</h2>
+                            <p class="font-[500] text-gray-500">ای زنده، ای پاینده</p>
+                        </div>
+                        <div class="card-zekar-counter flex flex-col items-center justify-center gap-[4px]" style="min-width: 100%; scroll-snap-align: center;">
+                            <h2 class="font-Nabi font-[500] text-2xl text-gray-700" style="line-height: 2.2;">لا إِلهَ إِلَّا اللَّهُ المَلِک الحقّ المُبین</h2>
+                            <p class="font-[500] text-gray-500">نیست خدایی جز الله فرمانروای حق و آشکار</p>
+                        </div>
+                        <div class="card-zekar-counter flex flex-col items-center justify-center gap-[4px]" style="min-width: 100%; scroll-snap-align: center;">
+                            <h2 class="font-Nabi font-[500] text-2xl text-gray-700" style="line-height: 2.2;">الّلهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَآلِ مُحَمَّدٍ و عجل فرجهم</h2>
+                            <p class="font-[500] text-gray-500">خدایا بر محمد و آل محمد درود فرست و در فرج ایشان (حضرت مهدی) تعجیل فرما</p>
+                        </div>
+                    </div>
+                    <div class="btn-zekar-counter flex items-center justify-center p-4 mb-4 w-[120px] h-[120px] rounded-full bg-blue-300 active:bg-blue-300/85 text-white text-center text-4xl font-[600] outline outline-1 outline-blue-300 outline-offset-4 cursor-pointer transition-all font-IRANSans" id="btnZekarCounter" onclick="zekarCounter(0);">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Ramadan Yar -->
+    <div class="modal-overlay" id="modalOverlayRamadanYar">
+        <i onclick="modalFunc('modalOverlayRamadanYar'), modalRamadanYarAudioPauseFunc(0);"></i>
+        <div class="modal p-4 w-[100%] transition-all" id="modalRamadanYar">
+            <span class="modal-ramadan-yar-logo-element-bg"></span>
+            <div class="modal-header !justify-between !flex-row gap-14 w-[100%]" style="margin: 0 auto !important; position: sticky; top: 0; z-index: 10;">
+                <div class="flex items-center justify-between gap-2 w-[100%]">
+                    <li class="flex items-center gap-2">
+                        <button class="size-8 flex items-center justify-center rounded-full transition-all" onclick="modalFunc('modalOverlayRamadanYar'), modalRamadanYarAudioPauseFunc(0);">
+                            <span title="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                </svg>
+                            </span>
+                        </button>
+                        <span class="text-white text-base">رمضان یار</span>
+                    </li>
+                    <span class="flex items-center gap-3">
+                        <button class="size-8 flex items-center justify-center rounded-full w-[100%] transition-all">
+                            <span title="" class="p-3 rounded-full flex items-center justify-center gap-2 transition-all" id="groupIconModalRamadanYar">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white transition-all" id="modalRamadanYarAudioMute" onclick="modalRamadanYarAudioMuteFunc(0);">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white hidden transition-all" id="modalRamadanYarAudioUnMute" onclick="modalRamadanYarAudioUnMuteFunc(0);">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                                </svg>
+                                
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white transition-all" onclick="modalFunc('modalOverlayRamadanYarOptions');">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                                </svg>
+                            </span>
+                        </button>
+                        <button class="size-8 flex items-center justify-center rounded-full transition-all 2md:hidden" onclick="requestFullScreenModalMobileFunc('modalRamadanYar', 'expandIconFullScreenModalRamadanYar', 'collapeIconFullScreenModalRamadanYar');">
+                            <span title="تمام صفحه" class="p-3 rounded-full flex items-center justify-center transition-all" id="expandIconFullScreenModalRamadanYar">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white transition-all">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                                </svg>
+                            </span>
+                            <span title="بستن تمام صفحه" class="hidden p-3 rounded-full flex items-center justify-center transition-all" id="collapeIconFullScreenModalRamadanYar">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white transition-all">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
+                                </svg>
+                            </span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-body flex align-items justify-center w-[100%]">
+                <!-- <audio src="{% static 'audios/rahman-ya-rahman.mp3' %}" id="audioAutoPlayRamadanYar"></audio> -->
+                <div class="flex items-center flex-col gap-6 w-[100%]">
+                    <div class="modal-ramadan-yar-logo">
+                        <img src="{% static 'images/logo/ramadan/arte-islamico-ramadan.svg' %}" alt="" class="drop-shadow-md" draggable="false">
+                    </div>
+                    <div class="flex items-center flex-col gap-4" style="position: absolute; top: 260px;">
+                        <a href="/surah/" class="w-[100%]" style="animation: a-slide-bottom-to-top 2.8s ease, a-fade-in 2.8s ease;">
+                            <div class="modal-ramadan-yar-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-full">
+                                    <rect width="38" height="38" rx="14" fill=""/>
+                                    <path d="M26.6475 12.4367L25.9895 11.3942C25.6252 10.817 25.443 10.5285 25.2044 10.5018C24.9657 10.4751 24.6993 10.749 24.1664 11.2967C22.4443 13.0669 20.7221 12.8054 19 15.9884C17.2779 12.8054 15.5557 13.0669 13.8336 11.2967C13.3007 10.749 13.0343 10.4751 12.7956 10.5018C12.557 10.5285 12.3749 10.817 12.0105 11.3942L11.3525 12.4367C11.0983 12.8395 10.9712 13.0408 11.0055 13.2528C11.0399 13.4648 11.2232 13.61 11.5899 13.9004L17.7724 18.7977C18.3634 19.2659 18.659 19.5 19 19.5C19.341 19.5 19.6366 19.2659 20.2276 18.7977L26.4101 13.9004C26.7768 13.61 26.9601 13.4648 26.9945 13.2528C27.0288 13.0408 26.9017 12.8395 26.6475 12.4367Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M29 15.5L13 27.5V22.8043M9 15.5L25 27.5V22.8043" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <h3 class="text-base text-white">مطالعه قرآن</h3>
+                            </div>
+                        </a>
+                        <a href="/doa/1/" class="w-[100%]" style="animation: a-slide-bottom-to-top 3s ease, a-fade-in 3s ease;">
+                            <div class="modal-ramadan-yar-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-full">
+                                    <rect width="38" height="38" rx="14" fill=""/>
+                                    <path d="M26 20L25.3417 19.3417C24.5896 18.5896 23.3803 18.5578 22.5896 19.2694L19.9931 21.6062C19.361 22.1751 19 22.9856 19 23.8361V28H21.6865C22.5238 28 23.323 27.6501 23.8909 27.0348L28.2044 22.3619C28.7159 21.8077 29 21.0812 29 20.327V13H28C26.8954 13 26 13.8954 26 15V20ZM26 20L23 23" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 20L12.6583 19.3417C13.4104 18.5896 14.6197 18.5578 15.4104 19.2694L18.0069 21.6062C18.639 22.1751 19 22.9856 19 23.8361V28H16.3135C15.4762 28 14.677 27.6501 14.1091 27.0348L9.79559 22.3619C9.28405 21.8077 9 21.0812 9 20.327V13H10C11.1046 13 12 13.8954 12 15V20ZM12 20L15 23" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M22 14.4343C21.4347 15.3725 20.406 16 19.2308 16C17.4465 16 16 14.5535 16 12.7692C16 11.594 16.6275 10.5653 17.5657 10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M21 11H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <h3 class="text-base text-white">مطالعه دعای سحر</h3>
+                            </div>
+                        </a>
+                        <a href="/doa/15/" class="w-[100%]" style="animation: a-slide-bottom-to-top 3.2s ease, a-fade-in 3.2s ease;">
+                            <div class="modal-ramadan-yar-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-full">
+                                    <rect width="38" height="38" rx="14" fill=""/>
+                                    <path d="M13.0719 22C6.65426 14 17.0123 12 19.0001 9C20.9875 12 31.3473 14 24.9267 22V25C24.9267 26.8856 24.9267 27.8284 24.3481 28.4142C23.7695 29 22.8382 29 20.9756 29H17.0236C15.1614 29 14.2303 29 13.6517 28.4144C13.0731 27.8287 13.0729 26.8861 13.0725 25.0009L13.0719 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M18 26L18.2988 25.7828C19.9134 24.6094 20.7206 24.0227 21.6386 24.0008C21.7479 23.9982 21.8573 24.0017 21.9662 24.0112C22.8444 24.0877 23.5 25 24.5 26" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M13.5 26C15 25 15.6689 24.0254 16.6805 24.0009C16.801 23.998 16.9215 24.0019 17.0415 24.0125C17.6754 24.0688 18.2447 24.3721 19 24.9447" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M22 19.4343C21.4347 20.3725 20.406 21 19.2308 21C17.4465 21 16 19.5535 16 17.7692C16 16.594 16.6275 15.5653 17.5657 15" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M21 16H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>                                  
+                                <h3 class="text-base text-white">مطالعه دعای مجیر</h3>
+                            </div>
+                        </a>
+                        <a href="/doa/daily-prayers-ramadan/" class="w-[100%]" style="animation: a-slide-bottom-to-top 3.4s ease, a-fade-in 3.2s ease;">
+                            <div class="modal-ramadan-yar-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-full">
+                                    <rect width="38" height="38" rx="14" fill=""/>
+                                    <path d="M13.0719 22C6.65426 14 17.0123 12 19.0001 9C20.9875 12 31.3473 14 24.9267 22V25C24.9267 26.8856 24.9267 27.8284 24.3481 28.4142C23.7695 29 22.8382 29 20.9756 29H17.0236C15.1614 29 14.2303 29 13.6517 28.4144C13.0731 27.8287 13.0729 26.8861 13.0725 25.0009L13.0719 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M18 26L18.2988 25.7828C19.9134 24.6094 20.7206 24.0227 21.6386 24.0008C21.7479 23.9982 21.8573 24.0017 21.9662 24.0112C22.8444 24.0877 23.5 25 24.5 26" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M13.5 26C15 25 15.6689 24.0254 16.6805 24.0009C16.801 23.998 16.9215 24.0019 17.0415 24.0125C17.6754 24.0688 18.2447 24.3721 19 24.9447" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M22 19.4343C21.4347 20.3725 20.406 21 19.2308 21C17.4465 21 16 19.5535 16 17.7692C16 16.594 16.6275 15.5653 17.5657 15" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M21 16H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>                                    
+                                <h3 class="text-base text-white">مطالعه دعای روزانه ماه رمضان</h3>
+                            </div>
+                        </a>
+                        <a href="/doa/20/" class="w-[100%]" style="animation: a-slide-bottom-to-top 3.6s ease, a-fade-in 3.2s ease;">
+                            <div class="modal-ramadan-yar-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-full">
+                                    <rect width="38" height="38" rx="14" fill=""/>
+                                    <path d="M13.0719 22C6.65426 14 17.0123 12 19.0001 9C20.9875 12 31.3473 14 24.9267 22V25C24.9267 26.8856 24.9267 27.8284 24.3481 28.4142C23.7695 29 22.8382 29 20.9756 29H17.0236C15.1614 29 14.2303 29 13.6517 28.4144C13.0731 27.8287 13.0729 26.8861 13.0725 25.0009L13.0719 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M18 26L18.2988 25.7828C19.9134 24.6094 20.7206 24.0227 21.6386 24.0008C21.7479 23.9982 21.8573 24.0017 21.9662 24.0112C22.8444 24.0877 23.5 25 24.5 26" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M13.5 26C15 25 15.6689 24.0254 16.6805 24.0009C16.801 23.998 16.9215 24.0019 17.0415 24.0125C17.6754 24.0688 18.2447 24.3721 19 24.9447" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M22 19.4343C21.4347 20.3725 20.406 21 19.2308 21C17.4465 21 16 19.5535 16 17.7692C16 16.594 16.6275 15.5653 17.5657 15" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M21 16H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>                                    
+                                <h3 class="text-base text-white">مطالعه دعای افتتاح</h3>
+                            </div>
+                        </a>
+                        <a href="/doa/19/" class="w-[100%] mb-4" style="animation: a-slide-bottom-to-top 3.8s ease, a-fade-in 3.2s ease;">
+                            <div class="modal-ramadan-yar-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rounded-full">
+                                    <rect width="38" height="38" rx="14" fill=""/>
+                                    <path d="M13.0719 22C6.65426 14 17.0123 12 19.0001 9C20.9875 12 31.3473 14 24.9267 22V25C24.9267 26.8856 24.9267 27.8284 24.3481 28.4142C23.7695 29 22.8382 29 20.9756 29H17.0236C15.1614 29 14.2303 29 13.6517 28.4144C13.0731 27.8287 13.0729 26.8861 13.0725 25.0009L13.0719 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M18 26L18.2988 25.7828C19.9134 24.6094 20.7206 24.0227 21.6386 24.0008C21.7479 23.9982 21.8573 24.0017 21.9662 24.0112C22.8444 24.0877 23.5 25 24.5 26" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M13.5 26C15 25 15.6689 24.0254 16.6805 24.0009C16.801 23.998 16.9215 24.0019 17.0415 24.0125C17.6754 24.0688 18.2447 24.3721 19 24.9447" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M22 19.4343C21.4347 20.3725 20.406 21 19.2308 21C17.4465 21 16 19.5535 16 17.7692C16 16.594 16.6275 15.5653 17.5657 15" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M21 16H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>                                    
+                                <h3 class="text-base text-white">مطالعه دعای جوشن کبیر</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal: Ramadan Yar Options -->
+    <div class="modal-overlay" id="modalOverlayRamadanYarOptions">
+        <i onclick="modalFunc('modalOverlayRamadanYarOptions');"></i>
+        <div class="modal p-4 w-[100%] transition-all">
+            <div class="modal-line" onclick="modalFunc('modalOverlayRamadanYarOptions');"></div>
+            <div class="modal-header">
+                <h3 class="text-base font-[500]">پلی لیست رمضان یار</h3>
+            </div>
+            <div class="modal-body flex align-items justify-center flex-col w-[100%]">
+                <audio src="{% static 'audios/rahman-ya-rahman.mp3' %}" controls id="audioAutoPlayRamadanYar"></audio>
+                <audio src="{% static 'audios/ya-ali-ya-aziem.mp3' %}" controls id="audioAutoPlayRamadanYar"></audio>
+                <audio src="{% static 'audios/doaaye-noor.mp3' %}" controls id="audioAutoPlayRamadanYar"></audio>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Special Palestine -->
+    <div class="modal-overlay" id="modalOverlaySpecialPalestine">
+        <i onclick="modalFunc('modalOverlaySpecialPalestine'), modalPalestineAudioPauseFunc(0);"></i>
+        <div class="modal p-4 w-[100%] transition-all" id="modalSpecialPalestine">
+            <span class="modal-palestine-logo-element-bg"></span>
+            <div class="modal-header !justify-between !flex-row gap-14 w-[100%]" style="margin: 0 auto !important; position: sticky; top: 0; z-index: 10;">
+                <div class="flex items-center justify-between gap-2 w-[100%]">
+                    <li class="flex items-center gap-2">
+                        <button class="size-8 flex items-center justify-center rounded-full transition-all" onclick="modalFunc('modalOverlaySpecialPalestine'), modalPalestineAudioPauseFunc(0);">
+                            <span title="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white" style="color: #fff !important;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                </svg>
+                            </span>
+                        </button>
+                        <span class="text-white text-base">ویژه فلسطین</span>
+                    </li>
+                    <span class="flex items-center gap-3">
+                        <button class="size-10 flex items-center justify-center rounded-full transition-all" id="groupIconModalPalestine">
+                            <span title="" class="p-3 rounded-full flex items-center justify-center transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white transition-all" id="modalPalestineAudioMute" onclick="modalPalestineAudioMuteFunc(0);">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white hidden transition-all" id="modalPalestineAudioUnMute" onclick="modalPalestineAudioUnMuteFunc(0);">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                                </svg>
+                            </span>
+                        </button>
+                        <button class="size-8 flex items-center justify-center rounded-full transition-all 2md:hidden" onclick="requestFullScreenModalMobileFunc('modalSpecialPalestine', 'expandIconFullScreenModalSpecialPalestine', 'collapeIconFullScreenModalSpecialPalestine');">
+                            <span title="تمام صفحه" class="p-3 rounded-full flex items-center justify-center transition-all" id="expandIconFullScreenModalSpecialPalestine">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white transition-all" style="color: #fff !important;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                                </svg>
+                            </span>
+                            <span title="بستن تمام صفحه" class="hidden p-3 rounded-full flex items-center justify-center transition-all" id="collapeIconFullScreenModalSpecialPalestine">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-white transition-all" style="color: #fff !important;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
+                                </svg>
+                            </span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-body flex align-items justify-center w-[100%]">
+                <audio src="{% static 'audios/palestine/palestine.mp3' %}" controls hidden id="audioAutoPlayPalestine"></audio>
+                <div class="flex items-center flex-col gap-6 w-[100%]">
+                    <div class="modal-palestine-logo">
+                        <img src="{% static 'images/logo/palestine/palestine-logotype.svg' %}" alt="" class="drop-shadow-md" draggable="false">
+                    </div>
+                    <div class="flex items-center flex-col gap-4" style="position: absolute; top: 300px;">
+                        <a href="https://irane-hamdel.khamenei.ir/" class="w-[100%]" style="animation: a-slide-bottom-to-top 2.8s ease, a-fade-in 2.8s ease;">
+                            <div class="modal-palestine-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <h3 class="text-base text-white">پویش سراسری ایران همدل</h3>
+                            </div>
+                        </a>
+                        <a href="javascript:void(0);" class="w-[100%]" style="animation: a-slide-bottom-to-top 2.8s ease, a-fade-in 2.8s ease;">
+                            <div class="modal-palestine-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <h3 class="text-base text-white">پویش صلوات برای آزادی فلسطین <span class="text-gray-100" style="font-size: 10px;">(بزودی)</span></h3>
+                            </div>
+                        </a>
+                        <a href="javascript:void(0);" class="w-[100%]" style="animation: a-slide-bottom-to-top 2.8s ease, a-fade-in 2.8s ease;">
+                            <div class="modal-palestine-card py-2 px-4 flex items-center gap-2 drop-shadow-md transition-all">
+                                <h3 class="text-base text-white">اخبار فلسطین <span class="text-gray-100" style="font-size: 10px;">(بزودی)</span></h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Ramadan Yar */
+        .icon-mute {display: none;}
+        .icon-unmute {display: flex;}
+        .modal#modalRamadanYar {
+            background: linear-gradient(180deg, rgba(27, 20, 100, 0.178), rgb(27, 20, 100)), url(../static/images/elements/background-namaz.png) !important;
+            background-color: rgb(27, 20, 100) !important;
+            background-position: center !important;
+            background-size: 600px !important;
+            height: 100vh;
+        }
+        .modal#modalRamadanYar #expandIconFullScreenModalRamadanYar,
+        .modal#modalRamadanYar #collapeIconFullScreenModalRamadanYar,
+        .modal#modalRamadanYar #groupIconModalRamadanYar,
+        .modal#modalSpecialPalestine  #expandIconFullScreenModalSpecialPalestine,
+        .modal#modalSpecialPalestine  #collapeIconFullScreenModalSpecialPalestine,
+        .modal#modalSpecialPalestine  #groupIconModalPalestine {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(2px);
+        }
+        .modal#modalRamadanYar .modal-ramadan-yar-logo-element-bg {
+            background: url(../static/images/elements/ramadan/eid-alfitr-islam.svg) no-repeat;
+            animation: a-slide-top-to-bottom 1.5s ease, a-opacity-el-ramadan-yar 4s alternate infinite;
+            background-position: top;
+            background-size: contain;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: .3;
+            right: 0;
+            left: 0;
+            top: 0;
+        }
+        .modal#modalRamadanYar .modal-body .modal-ramadan-yar-logo::after {
+            background: url(../static/images/elements/top-border.svg) no-repeat;
+            animation: a-slide-bottom-to-top 1.5s ease;
+            background-position: top;
+            background-size: contain;
+            position: absolute;
+            rotate: 180deg;
+            height: 20px;
+            content: '';
+            width: 100%;
+            opacity: .5;
+            z-index: 0;
+            top: 130px;
+            right: 0;
+            left: 0;
+        }
+        .modal#modalRamadanYar .modal-body .modal-ramadan-yar-logo {
+            width: 320px;
+            margin: auto;
+            display: flex;
+            margin-top: 20px;
+            position: absolute;
+            align-items: center;
+            flex-direction: column-reverse;
+            justify-content: space-between;
+            animation: a-slide-top-to-bottom 2.5s ease;
+        }
+        .modal#modalRamadanYar .modal-body .modal-ramadan-yar-logo img {
+            z-index: 0;
+            margin-bottom: 45px;
+            border-radius: 9999px;
+            backdrop-filter: blur(20px);
+        }
+        .modal#modalRamadanYar .modal-body .modal-ramadan-yar-card {
+            background: url(../static/images/elements/background-namaz.png);
+            outline: 0.13rem solid #cecece; /* #fcfcfc */
+            background-size: 600px;
+            border-radius: 9999px;
+            z-index: 10;
+            width: 100%;
+        }
+        .modal#modalRamadanYar .modal-body .modal-ramadan-yar-card:hover {
+            background-color: rgba(121, 177, 255, 0.1);
+            outline-color: rgba(182, 197, 255, 0.4);
+        }
+        .modal-overlay#modalOverlayRamadanYarOptions audio::-webkit-media-controls-enclosure {background-color: transparent;}
+        .switch-dark-light-mode audio {color-scheme: dark;}
+
+        /* Special Palestine */
+        .modal#modalSpecialPalestine {
+            background: linear-gradient(180deg, rgba(83, 79, 58, 0.18), rgb(233, 216, 142)), url(../static/images/elements/background-namaz.png) !important;
+            background-color: rgb(238, 222, 151) !important;
+            background-position: center !important;
+            background-size: 600px !important;
+            height: 100vh;
+        }
+        .modal#modalSpecialPalestine .modal-palestine-logo-element-bg {
+            background: url(../static/images/elements/palestine/palestine-line.svg) no-repeat;
+            animation: a-slide-top-to-bottom 1.5s ease, a-opacity-el-special-palestine 4s alternate infinite;
+            background-position: top;
+            background-size: contain;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: .3;
+            top: 70px;
+            right: 0;
+            left: 0;
+        }
+        .modal#modalSpecialPalestine .modal-body .modal-palestine-logo {
+            width: 270px;
+            margin: auto;
+            display: flex;
+            margin-top: 20px;
+            position: absolute;
+            align-items: center;
+            flex-direction: column-reverse;
+            justify-content: space-between;
+            animation: a-slide-top-to-bottom 2.5s ease;
+        }
+        .modal#modalSpecialPalestine .modal-body .modal-palestine-logo::after {
+            background: url(../static/images/elements/top-border.svg) no-repeat;
+            animation: a-slide-bottom-to-top 1.5s ease;
+            background-position: top;
+            background-size: contain;
+            position: absolute;
+            rotate: 180deg;
+            height: 20px;
+            content: '';
+            width: 100%;
+            z-index: 0;
+            top: 180px;
+            right: 0;
+            left: 0;
+        }
+        .modal#modalSpecialPalestine .modal-body .modal-palestine-logo img {
+            z-index: 0;
+            margin-bottom: 45px;
+            border-radius: 9999px;
+            backdrop-filter: blur(20px);
+        }
+        .modal#modalSpecialPalestine .modal-body .modal-palestine-card {
+            background: url(../static/images/elements/background-namaz.png);
+            background-color: rgba(216, 189, 103, 0.3);
+            outline: 0.13rem solid #f0e0b6;
+            background-size: 600px;
+            border-radius: 9999px;
+            z-index: 10;
+            width: 100%;
+        }
+        .modal#modalSpecialPalestine .modal-body .modal-palestine-card:hover {
+            background-color: rgba(255, 224, 121, 0.1);
+            outline-color: rgba(255, 229, 182, 0.4);
+        }
+
+
+        @keyframes a-opacity-el-ramadan-yar {
+            0% {
+                transition: var(--trs-1s);
+                opacity: 1;
+                top: 15px;
+            }
+        }
+        @keyframes a-opacity-el-special-palestine {
+            0% {
+                transition: var(--trs-1s);
+                opacity: 1;
+                top: 60px;
+            }
+        }
+    </style>
+
+    <script>
+        function modalRamadanYarAudioPlayFunc() {
+            const audioAutoPlayRamadanYarId = document.getElementById('audioAutoPlayRamadanYar');
+            audioAutoPlayRamadanYarId.play();
+        }
+        function modalRamadanYarAudioPauseFunc() {
+            const audioAutoPlayRamadanYarId = document.getElementById('audioAutoPlayRamadanYar');
+            audioAutoPlayRamadanYarId.pause();
+        }
+        function modalRamadanYarAudioMuteFunc() {
+            const audioAutoPlayRamadanYarId = document.querySelector('audio');
+            const modalRamadanYarAudioMuteId = document.getElementById('modalRamadanYarAudioMute');
+            const modalRamadanYarAudioUnMuteId = document.getElementById('modalRamadanYarAudioUnMute');
+            modalRamadanYarAudioMuteId.classList.add('icon-mute');
+            modalRamadanYarAudioUnMuteId.classList.add('icon-unmute');
+            audioAutoPlayRamadanYarId.muted = true;
+        }
+        function modalRamadanYarAudioUnMuteFunc() {
+            const audioAutoPlayRamadanYarId = document.querySelector('audio');
+            const modalRamadanYarAudioMuteId = document.getElementById('modalRamadanYarAudioMute');
+            const modalRamadanYarAudioUnMuteId = document.getElementById('modalRamadanYarAudioUnMute');
+            modalRamadanYarAudioMuteId.classList.remove('icon-mute');
+            modalRamadanYarAudioUnMuteId.classList.remove('icon-unmute');
+            audioAutoPlayRamadanYarId.muted = false;
+        }
+        
+        function modalPalestineAudioPlayFunc() {
+            const audioAutoPlayPalestineId = document.getElementById('audioAutoPlayPalestine');
+            audioAutoPlayPalestineId.play();
+        }
+        function modalPalestineAudioPauseFunc() {
+            const audioAutoPlayPalestineId = document.getElementById('audioAutoPlayPalestine');
+            audioAutoPlayPalestineId.pause();
+        }
+        function modalPalestineAudioMuteFunc() {
+            const audioAutoPlayPalestineId = document.getElementById('audioAutoPlayPalestine');
+            const modalPalestineAudioMuteId = document.getElementById('modalPalestineAudioMute');
+            const modalPalestineAudioUnMuteId = document.getElementById('modalPalestineAudioUnMute');
+            modalPalestineAudioMuteId.classList.add('icon-mute');
+            modalPalestineAudioUnMuteId.classList.add('icon-unmute');
+            audioAutoPlayPalestineId.muted = true;
+        }
+        function modalPalestineAudioUnMuteFunc() {
+            const audioAutoPlayPalestineId = document.getElementById('audioAutoPlayPalestine');
+            const modalPalestineAudioMuteId = document.getElementById('modalPalestineAudioMute');
+            const modalPalestineAudioUnMuteId = document.getElementById('modalPalestineAudioUnMute');
+            modalPalestineAudioMuteId.classList.remove('icon-mute');
+            modalPalestineAudioUnMuteId.classList.remove('icon-unmute');
+            audioAutoPlayPalestineId.muted = false;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const audios = document.querySelectorAll('audio');
+
+            audios.forEach(audio => {
+                audio.addEventListener("play", function () {
+                    audios.forEach(otherAudio => {
+                        if (otherAudio !== audio) {
+                            otherAudio.pause();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // Short Calendar
+        let date = Date.now();
+        let dateFormat = new Intl.DateTimeFormat('Fa', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }).formatToParts(date);
+        let dateObject = Object.fromEntries(dateFormat.map(part => [part.type, part.value]));
+
+        const dateDayId = document.getElementById('dateDay');
+        const dateWeekdayId = document.getElementById('dateWeekday');
+        const dateMonthYearId = document.getElementById('dateMonthYear');
+        
+        dateDayId.innerHTML = dateObject.day;
+        dateWeekdayId.innerHTML = dateObject.weekday;
+        dateMonthYearId.innerHTML = dateObject.month + ' ' + dateObject.year;
+        
+        // Zekar Ruz
+        const zekarRuzTextId = document.getElementById('zekarRuzText');
+        const zekarRuzTranslateId = document.getElementById('zekarRuzTranslate');
+        if (dateObject.weekday === 'شنبه') {
+            zekarRuzTextId.innerHTML = 'یا رَبِّ الْعالَمِین';
+            zekarRuzTranslateId.innerHTML = 'ای پروردگار جهانیان';
+        } else if (dateObject.weekday === 'یکشنبه') {
+            zekarRuzTextId.innerHTML = 'یا ذَالجَلالِ وَ اْلاِکْرام';
+            zekarRuzTranslateId.innerHTML = 'ای صاحب جلال و بزرگواری';
+        } else if (dateObject.weekday === 'دوشنبه') {
+            zekarRuzTextId.innerHTML = 'یا قاضیَ الحاجات';
+            zekarRuzTranslateId.innerHTML = 'ای برآورنده حاجت ها';
+        } else if (dateObject.weekday === 'سه‌شنبه') {
+            zekarRuzTextId.innerHTML = 'یا أَرْحَمَ الرَّاحِمِین';
+            zekarRuzTranslateId.innerHTML = 'ای مهربان ترین مهربانان';
+        } else if (dateObject.weekday === 'چهارشنبه') {
+            zekarRuzTextId.innerHTML = 'یا حَیُّ یا قَیّومُ';
+            zekarRuzTranslateId.innerHTML = 'ای زنده، ای پاینده';
+        } else if (dateObject.weekday === 'پنجشنبه') {
+            zekarRuzTextId.innerHTML = 'لا إِلهَ إِلَّا اللَّهُ المَلِک الحقّ المُبین';
+            zekarRuzTranslateId.innerHTML = 'نیست خدایی جز الله فرمانروای حق و آشکار';
+        } else if (dateObject.weekday === 'جمعه') {
+            zekarRuzTextId.innerHTML = 'الّلهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَآلِ مُحَمَّدٍ و عجل فرجهم';
+            zekarRuzTranslateId.innerHTML = 'خدایا بر محمد و آل محمد درود فرست و در فرج ایشان (حضرت مهدی) تعجیل فرما';
+        }
+
+        // Slider For Zekar Counter
+        const zekarCounterContainerId = document.querySelector(".zekar-counter-container");
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        zekarCounterContainerId.addEventListener("mousedown", (e) => {
+            isDown = true;
+            startX = e.pageX - zekarCounterContainerId.offsetLeft;
+            scrollLeft = zekarCounterContainerId.scrollLeft;
+        });
+        zekarCounterContainerId.addEventListener("mouseleave", () => isDown = false);
+        zekarCounterContainerId.addEventListener("mouseup", () => isDown = false);
+        zekarCounterContainerId.addEventListener("mousemove", (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - zekarCounterContainerId.offsetLeft;
+            const walk = (x - startX) * 2;
+            zekarCounterContainerId.scrollLeft = scrollLeft - walk;
+        });
+
+        zekarCounterContainerId.addEventListener("touchstart", (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - zekarCounterContainerId.offsetLeft;
+            scrollLeft = zekarCounterContainerId.scrollLeft;
+        });
+        zekarCounterContainerId.addEventListener("touchend", () => isDown = false);
+        zekarCounterContainerId.addEventListener("touchcancel", () => isDown = false);
+        zekarCounterContainerId.addEventListener("touchmove", (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - zekarCounterContainerId.offsetLeft;
+            const walk = (x - startX) * 2;
+            zekarCounterContainerId.scrollLeft = scrollLeft - walk;
+        });
+
+        // Zekar Counter
+        let counterBtnId = document.querySelector('.btn-zekar-counter');
+        let counter = 0;
+        function zekarCounter() {
+            let counterIncrese = counter += 1;
+            navigator.vibrate(200);
+            counterBtnId.innerHTML = counterIncrese;
+        }
+        function zekarCounterReset() {
+            counter = 0;
+            counterBtnId.innerHTML = 0;
+        }
+    </script>
+
+{% endblock %}

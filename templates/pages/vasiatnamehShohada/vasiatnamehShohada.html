@@ -1,0 +1,47 @@
+{% extends 'includes/_base.html' %}
+
+{% load static %}
+
+{% block title %}وصیتنامه شهدا - آیه{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+    <style>
+        .switch-dark-light-mode .section-content * {
+            transition: var(--trs-2s);
+            color: var(--color-dark-text-first) !important;
+        }
+    </style>
+
+    <!-- Navbar -->
+    {% include 'includes/_navbar.html' %}
+
+    <!-- Modals -->
+    {% include 'includes/_modals.html' %}
+
+    <!-- Section: Main -->
+    <section class="section-main flex gap-8 max-2md:my-[1.3rem] transition-all">
+        <!-- Sidebar -->
+        {% include 'includes/_sidebar.html' %}
+
+        <!-- Section: Content -->
+        <section class="section-content max-2md:w-[96%] max-2md:mx-auto mb-4 2md:w-[calc(100%-230px)] transition-all">
+            <div class="flex flex-wrap gap-4 transition-all">
+                {% if vasiatnamehShohada %}
+                    {% for v in vasiatnamehShohada %}
+                        <div class="w-[120px] max-sm:w-[100px]">
+                            <a href="/vasiatnameh_shohada/{{ v.id }}/" class="flex flex-col gap-2 w-[100%]">
+                                <img src="https://ayah.chbk.app/media/{{ v.vasiatnameh_shohada_img }}" alt="" class="h-[120px] max-sm:h-[100px] object-cover rounded-3xl hover:saturate-150 transition-all" draggable="false">
+                                <h3 class="font-[500] text-gray-700 text-[15px] max-md:text-[13px] transition-all">{{ v.vasiatnameh_shohada_name }}</h3>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-sm text-gray-400 font-[500]">موردی یافت نشد.</p>
+                {% endif %}
+            </div>
+        </section>
+    </section>
+
+{% endblock %}

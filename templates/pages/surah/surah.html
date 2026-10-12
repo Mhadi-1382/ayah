@@ -1,0 +1,107 @@
+{% extends 'includes/_base.html' %}
+
+{% load static %}
+
+{% block title %}فهرست سوره ها - آیه{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+    <style>
+        .switch-dark-light-mode .section-content div div.justify-between {
+            transition: var(--trs-2s);
+            background: var(--color-dark-third) !important;
+        }
+        .switch-dark-light-mode .section-content div div.justify-between h4 span {
+            transition: var(--trs-2s);
+            color: var(--color-dark-text-first) !important;
+        }
+        .switch-dark-light-mode .section-content div div.justify-between .bg-green-50 {
+            transition: var(--trs-2s);
+            background: var(--color-dark-second) !important;
+        }
+        .switch-dark-light-mode .section-content .surah-history {
+            transition: var(--trs-2s);
+            background: var(--color-dark-second) !important;
+        }
+        .switch-dark-light-mode .section-content .surah-history * {
+            transition: var(--trs-2s);
+            color: var(--color-dark-text-first) !important;
+        }
+        .switch-dark-light-mode .section-content .surah-history button {
+            transition: var(--trs-2s);
+            background: var(--color-dark-third) !important;
+        }
+    </style>
+
+    <!-- Navbar -->
+    {% include 'includes/_navbar.html' %}
+
+    <!-- Modals -->
+    {% include 'includes/_modals.html' %}
+
+    <!-- Section: Main -->
+    <section class="section-main flex gap-8 max-2md:my-[1.3rem] transition-all">
+        <!-- Sidebar -->
+        {% include 'includes/_sidebar.html' %}
+
+        <!-- Section: Content -->
+        <section class="section-content max-2md:w-[96%] max-2md:mx-auto mb-4 2md:w-[calc(100%-230px)] transition-all">
+            <div class="surah-history flex items-center justify-between gap-2 bg-gray-100 py-3 px-6 mb-6 rounded-full w-[100%]">
+                <a href="" class="w-[100%] flex items-center justify-between gap-2" id="surahHistoryNumber">
+                    <div class="flex items-center gap-4">
+                        <h4 class="flex flex-col">
+                            <span class="text-gray-500">آخرین سوره مطالعه شده</span>
+                            <span class="text-[16px] text-gray-700 font-[500]" id="surahHistoryTitle"></span>
+                        </h4>
+                    </div>
+                    <button class="py-2 px-4 bg-gray-50 text-gray-500 rounded-full">ادامه مطالعه</button>
+                </a>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                {% if surah %}
+                    {% for s in surah %}
+                        <div class="flex items-center justify-between gap-2 bg-white p-2 rounded-full w-[100%]">
+                            <a href="/surah/{{ s.id }}/" class="w-[100%] flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-4">
+                                    <li class="flex items-center justify-center w-12 h-12 p-2 bg-green-50 rounded-full text-[17px]">{{ s.id }}</li>
+                                    <h4 class="flex flex-col">
+                                        <span class="text-[17px] text-gray-700 font-[500]">سوره {{ s.surah_name_fa }}</span>
+                                        <span class="text-[13px] text-gray-500">{{ s.number_ayeh }} آیه</span>
+                                    </h4>
+                                </div>
+                                <h4 class="text-[18px] font-[600] text-blue-200 font-Nabi">{{ s.surah_name_ar }}</h4>
+                            </a>
+                            <span class="mx-4 cursor-pointer" onclick="dataShareFunc('مشاهده سوره {{ s.surah_name_fa }} قرآن کریم در آیه', '', '{{ s.id }}');" title="اشتراک گذاری">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                </svg>
+                            </span>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-sm text-gray-400 font-[500]">موردی یافت نشد.</p>
+                {% endif %}
+            </div>
+        </section>
+    </section>
+
+    <script>
+        const surahHistoryTitleId = document.getElementById('surahHistoryTitle');
+        const surahHistoryNumberId = document.getElementById('surahHistoryNumber');
+        const surahHistoryNumberButtonId = document.querySelector('#surahHistoryNumber button');
+        const surahHistory = JSON.parse(localStorage.getItem('surahHistory')) || [];
+
+        if (surahHistory[0]) {
+            surahHistoryTitleId.innerHTML = surahHistory[0].title;
+            surahHistoryNumberId.href = surahHistory[0].number;
+        } else {
+            surahHistoryTitleId.innerHTML = '<p class="text-sm font-[500]">موردی یافت نشد.</p>';
+            surahHistoryNumberId.href = '';
+            surahHistoryNumberButtonId.disabled = true;
+            surahHistoryNumberButtonId.style.color = 'silver'
+        }
+    </script>
+
+{% endblock %}

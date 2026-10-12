@@ -1,0 +1,131 @@
+{% load static %}
+
+{% if surah_search or doa_search or ahadis_search or ziyart_majazi_search or vasiatnameh_shohada_search %}
+    {% if surah_search %}
+        <div class="flex items-center gap-4 w-[100%] my-3">
+            <h3 class="text-[16px] text-gray-500 font-[500]" style="white-space: nowrap;">جستجو در فهرست سوره ها</h3>
+            <hr class="text-gray-500 w-[100%]">
+        </div>
+        <div class="flex flex-col gap-2">
+            {% for s in surah_search %}
+                <div class="flex items-center justify-between gap-2 bg-gray-50 py-2 px-4 rounded-full w-[100%] switch-dark-mode">
+                    <a href="/surah/{{ s.id }}/" class="w-[100%] flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-4">
+                            <li class="flex items-center justify-center w-12 h-12 p-2 bg-green-50 rounded-full text-[17px]">{{ s.id }}</li>
+                            <h4 class="flex flex-col">
+                                <span class="text-[17px] text-gray-700 font-[500]">{{ s.surah_name_fa }}</span>
+                            </h4>
+                        </div>
+                    </a>
+                    <span class="cursor-pointer" onclick="dataShareFunc('مشاهده سوره {{ s.surah_name_fa }} قرآن کریم در آیه', '', '{{ s.id }}');" title="اشتراک گذاری">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                        </svg>
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if doa_search %}
+        <div class="flex items-center gap-4 w-[100%] my-3">
+            <h3 class="text-[16px] text-gray-500 font-[500]" style="white-space: nowrap;">جستجو در دعاها</h3>
+            <hr class="text-gray-500 w-[100%]">
+        </div>
+        <div class="flex flex-col gap-2">
+            {% for d in doa_search %}
+                <div class="flex items-center justify-between gap-2 bg-gray-50 py-2 px-4 rounded-full w-[100%] switch-dark-mode">
+                    <a href="/doa/{{ d.id }}/" class="w-[100%] flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-4">
+                            <li class="flex items-center justify-center w-12 h-12 p-2 bg-green-50 rounded-full text-[17px]">{{ d.id }}</li>
+                            <h4 class="flex flex-col">
+                                <span class="text-[17px] text-gray-700 font-[500]">{{ d.doa_name }}</span>
+                            </h4>
+                        </div>
+                    </a>
+                    <span class="cursor-pointer" onclick="dataShareFunc('مشاهده {{ d.doa_name }} در آیه', '', '{{ d.id }}');" title="اشتراک گذاری">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                        </svg>
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if ahadis_search %}
+        <div class="flex items-center gap-4 w-[100%] my-3">
+            <h3 class="text-[16px] text-gray-500 font-[500]" style="white-space: nowrap;">جستجو در احادیث</h3>
+            <hr class="text-gray-500 w-[100%]">
+        </div>
+        <div class="flex flex-col gap-2">
+            {% for a in ahadis_search %}
+                <div class="flex items-center justify-between gap-2 bg-gray-50 py-2 px-4 rounded-full w-[100%] switch-dark-mode">
+                    <a href="/ahadis#{{ a.id }}/" class="w-[100%] flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-4">
+                            <li class="flex items-center justify-center w-12 h-12 p-2 bg-green-50 rounded-full text-[17px]">{{ a.id }}</li>
+                            <h4 class="flex flex-col">
+                                <span class="text-[17px] text-gray-700 font-[500]">{{ a.ahadis_title }}</span>
+                            </h4>
+                        </div>
+                    </a>
+                    <span class="cursor-pointer" onclick="dataShareFunc('مشاهده حدیث از {{ a.ahadis_title }} در آیه', '', '/ahadis#{{ a.id }}/');" title="اشتراک گذاری">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                        </svg>
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if ziyart_majazi_search %}
+        <div class="flex items-center gap-4 w-[100%] my-3">
+            <h3 class="text-[16px] text-gray-500 font-[500]" style="white-space: nowrap;">جستجو در زیارت مجازی</h3>
+            <hr class="text-gray-500 w-[100%]">
+        </div>
+        <div class="flex flex-col gap-2">
+            {% for z in ziyart_majazi_search %}
+                <div class="flex items-center justify-between gap-2 bg-gray-50 py-2 px-4 rounded-full w-[100%] switch-dark-mode">
+                    <a href="{{ z.ziyart_majazi_link }}" class="w-[100%] flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-4">
+                            <li class="flex items-center justify-center w-12 h-12 p-2 bg-green-50 rounded-full text-[17px]">{{ z.id }}</li>
+                            <h4 class="flex flex-col">
+                                <span class="text-[17px] text-gray-700 font-[500]">{{ z.ziyart_majazi_title }}</span>
+                            </h4>
+                        </div>
+                    </a>
+                    <span class="cursor-pointer" onclick="dataShareFunc('زیارت مجازی {{ z.ziyart_majazi_title }} در آیه', '', '{{ z.ziyart_majazi_link }}');" title="اشتراک گذاری">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                        </svg>
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if vasiatnameh_shohada_search %}
+        <div class="flex items-center gap-4 w-[100%] my-3">
+            <h3 class="text-[16px] text-gray-500 font-[500]" style="white-space: nowrap;">جستجو در وصیتنامه شهدا</h3>
+            <hr class="text-gray-500 w-[100%]">
+        </div>
+        <div class="flex flex-col gap-2">
+            {% for v in vasiatnameh_shohada_search %}
+                <div class="flex items-center justify-between gap-2 bg-gray-50 py-2 px-4 rounded-full w-[100%] switch-dark-mode">
+                    <a href="/vasiatnameh_shohada/{{ v.id }}/" class="w-[100%] flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-4">
+                            <li class="flex items-center justify-center w-12 h-12 p-2 bg-green-50 rounded-full text-[17px]">{{ v.id }}</li>
+                            <h4 class="flex flex-col">
+                                <span class="text-[17px] text-gray-700 font-[500]">{{ v.vasiatnameh_shohada_name }}</span>
+                            </h4>
+                        </div>
+                    </a>
+                    <span class="cursor-pointer" onclick="dataShareFunc('وصیتنامه {{ v.vasiatnameh_shohada_name }} در آیه', '', '/vasiatnameh_shohada/{{ v.id }}/');" title="اشتراک گذاری">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                        </svg>
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% else %}
+    <p class="text-sm text-gray-400 font-[500]">موردی یافت نشد.</p>
+{% endif %}
